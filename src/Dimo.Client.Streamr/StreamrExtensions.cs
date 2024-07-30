@@ -9,5 +9,10 @@ namespace Dimo.Client.Streamr
             
             return services;
         }
+        
+        public static IServiceCollection AddStreamr(this IServiceCollection services, StreamrOptions options)
+        {
+            return services;
+        }
     }
 }

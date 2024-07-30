@@ -3,9 +3,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="graphql\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Dimo.Client.Core\Dimo.Client.Core.csproj" />
+    <ProjectReference Include="..\Dimo.Client.Streamr\Dimo.Client.Streamr.csproj" />
   </ItemGroup>
 </Project>

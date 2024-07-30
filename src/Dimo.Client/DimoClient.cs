@@ -1,20 +1,20 @@
 using System;
 using System.Threading.Tasks;
-using Dimo.Client.Models;
+using Dimo.Client.Core;
 
 namespace Dimo.Client
 {
     public class DimoClient : IDisposable, IAsyncDisposable
     {
-        private TargetEnvironment _environment;
+        private DimoEnvironment _environment;
         private bool _disposed;
 
         public DimoClient()
         {
-            _environment = TargetEnvironment.Development;
+            _environment = DimoEnvironment.Development;
         }
 
-        public DimoClient(TargetEnvironment environment)
+        public DimoClient(DimoEnvironment environment)
         {
             _environment = environment;
         }
