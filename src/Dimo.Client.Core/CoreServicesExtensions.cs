@@ -27,6 +27,8 @@ namespace Dimo.Client.Core
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IValuationsService, ValuationsService>();
             services.AddScoped<IVehicleSignalDecodingService, VehicleSignalDecodingService>();
+            
+            services.AddSingleton<RpcSigner>(Constants.RpcSigners[environment]);
 
             services.AddTransient<AuthenticationHandler>();
             
