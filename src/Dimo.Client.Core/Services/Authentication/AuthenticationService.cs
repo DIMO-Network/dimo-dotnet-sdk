@@ -29,7 +29,7 @@ namespace Dimo.Client.Core.Services.Authentication
         public async Task<SignatureChallenge> GenerateChallengeAsync(string clientId, string domain, string address,
             CancellationToken cancellationToken = default)
         {
-            using (var client = _httpClientFactory.CreateClient(ApiNames.Devices))
+            using (var client = _httpClientFactory.CreateClient(ApiNames.Auth))
             {
                 var content = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
                 {
@@ -69,7 +69,7 @@ namespace Dimo.Client.Core.Services.Authentication
         public async Task<Auth> SubmitChallengeAsync(string clientId, string domain, string state, string signature,
             CancellationToken cancellationToken = default)
         {
-            using (var client = _httpClientFactory.CreateClient(ApiNames.Devices))
+            using (var client = _httpClientFactory.CreateClient(ApiNames.Auth))
             {
                 var content = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
                 {
