@@ -152,7 +152,7 @@ namespace Dimo.Client.Core.Services.Devices
 #if NETSTANDARD
                 var content = new StringContent(JsonConvert.SerializeObject(new { aftermarketDeviceSignature, userSignature }), Encoding.UTF8, "application/json");
 #elif NET6_0_OR_GREATER
-                var content = new StringContent(JsonSerializer.Serialize(new { countryCode, vin, canProtocol }));
+                var content = new StringContent(JsonSerializer.Serialize(new { aftermarketDeviceSignature, userSignature }));
 #endif
                 var response = await client.PostAsync($"/v1/aftermarket/device/by-serial/{serial}/commands/claim", content, cancellationToken);
 
@@ -194,7 +194,7 @@ namespace Dimo.Client.Core.Services.Devices
 #if NETSTANDARD
                 var content = new StringContent(JsonConvert.SerializeObject(new { aftermarketDeviceSignature, userSignature }), Encoding.UTF8, "application/json");
 #elif NET6_0_OR_GREATER
-                var content = new StringContent(JsonSerializer.Serialize(new { countryCode, vin, canProtocol }));
+                var content = new StringContent(JsonSerializer.Serialize(new { aftermarketDeviceSignature, userSignature }));
 #endif
                 var response = await client.PostAsync($"/v1/user/devices/{userDeviceId}/commands/mint", content, cancellationToken);
 
