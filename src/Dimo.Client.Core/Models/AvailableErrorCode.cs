@@ -2,6 +2,7 @@ using System;
 
 namespace Dimo.Client.Core.Models
 {
+    #if NETSTANDARD
     public class AvailableErrorCode
     {
         public QueryResult[] Queries { get; set; }
@@ -19,4 +20,12 @@ namespace Dimo.Client.Core.Models
         public string Code { get; set; }
         public string Description { get; set; }
     }
+    #elif NET6_0_OR_GREATER
+    public record AvailableErrorCode(QueryResult[] Queries);
+    
+    public record QueryResult(DateTime CreatedAt, ErrorCode[] ErrorCodes, DateTime RequestedAt);
+    
+    public record ErrorCode(string Code, string Description);
+    
+    #endif
 }

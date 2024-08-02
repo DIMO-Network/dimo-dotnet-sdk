@@ -1,3 +1,4 @@
+using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -51,7 +52,12 @@ namespace Dimo.Client.Core.Services.Devices
         {
             using (var client = _httpClientFactory.CreateClient(ApiNames.Devices))
             {
-                var response = await client.GetAsync($"/device-definitions?make={make}&model={model}&year={year}", cancellationToken);
+#if NETSTANDARD
+                var content = new StringContent(JsonConvert.SerializeObject(new { countryCode, code, redirectUri }), Encoding.UTF8, "application/json");
+#elif NET6_0_OR_GREATER
+                var content = new StringContent(JsonSerializer.Serialize(new { countryCode, code, redirectUri }));
+#endif
+                var response = await client.PostAsync($"/v1/user/devices/fromsmartcar", content, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -73,7 +79,12 @@ namespace Dimo.Client.Core.Services.Devices
         {
             using (var client = _httpClientFactory.CreateClient(ApiNames.Devices))
             {
-                var response = await client.GetAsync($"/device-definitions?make={make}&model={model}&year={year}", cancellationToken);
+#if NETSTANDARD
+                var content = new StringContent(JsonConvert.SerializeObject(new { countryCode, vin, canProtocol }), Encoding.UTF8, "application/json");
+#elif NET6_0_OR_GREATER
+                var content = new StringContent(JsonSerializer.Serialize(new { countryCode, vin, canProtocol }));
+#endif
+                var response = await client.PostAsync($"/v1/user/devices/fromvin", content, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -90,13 +101,22 @@ namespace Dimo.Client.Core.Services.Devices
             }
         }
 
-        public async Task UpdateVehicleVinAsync(string userDeviceId, UpdateVinRequest payload,
+        public async Task UpdateVehicleVinAsync(string userDeviceId, string vin, string signature,
             CancellationToken cancellationToken = default)
         {
             using (var client = _httpClientFactory.CreateClient(ApiNames.Devices))
             {
-                var response = await client.GetAsync($"/device-definitions?make={make}&model={model}&year={year}", cancellationToken);
-
+#if NETSTANDARD
+                var content = new StringContent(JsonConvert.SerializeObject(new { vin, signature }), Encoding.UTF8, "application/json");
+                var request = new HttpRequestMessage(new HttpMethod("PATCH"), $"v1/user/devices/{userDeviceId}/vin")
+                {
+                    Content = content
+                };
+                var response = await client.SendAsync(request, cancellationToken);
+#elif NET6_0_OR_GREATER
+                var content = new StringContent(JsonSerializer.Serialize(new { vin, signature }));
+                var response = await client.PatchAsync($"v1/user/devices/{userDeviceId}/vin", content, cancellationToken);
+#endif
                 if (!response.IsSuccessStatusCode)
                 {
                     throw new HttpRequestException(response.ReasonPhrase);
@@ -108,7 +128,7 @@ namespace Dimo.Client.Core.Services.Devices
         {
             using (var client = _httpClientFactory.CreateClient(ApiNames.Devices))
             {
-                var response = await client.GetAsync($"/device-definitions?make={make}&model={model}&year={year}", cancellationToken);
+                var response = await client.GetAsync($"/v1/aftermarket/device/by-serial/{serial}/commands/claim", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -125,11 +145,16 @@ namespace Dimo.Client.Core.Services.Devices
             }
         }
 
-        public async Task SignClaimingPayloadAsync(string serial, SignClaimRequest payload, CancellationToken cancellationToken = default)
+        public async Task SignClaimingPayloadAsync(string serial, string aftermarketDeviceSignature, string userSignature, CancellationToken cancellationToken = default)
         {
             using (var client = _httpClientFactory.CreateClient(ApiNames.Devices))
             {
-                var response = await client.GetAsync($"/device-definitions?make={make}&model={model}&year={year}", cancellationToken);
+#if NETSTANDARD
+                var content = new StringContent(JsonConvert.SerializeObject(new { aftermarketDeviceSignature, userSignature }), Encoding.UTF8, "application/json");
+#elif NET6_0_OR_GREATER
+                var content = new StringContent(JsonSerializer.Serialize(new { countryCode, vin, canProtocol }));
+#endif
+                var response = await client.PostAsync($"/v1/aftermarket/device/by-serial/{serial}/commands/claim", content, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -144,7 +169,7 @@ namespace Dimo.Client.Core.Services.Devices
         {
             using (var client = _httpClientFactory.CreateClient(ApiNames.Devices))
             {
-                var response = await client.GetAsync($"/device-definitions?make={make}&model={model}&year={year}", cancellationToken);
+                var response = await client.GetAsync($"/v1/user/devices/{userDeviceId}/commands/mint", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -161,12 +186,17 @@ namespace Dimo.Client.Core.Services.Devices
             }
         }
 
-        public async Task SignMintingPayloadAsync(string userDeviceId, SignMintRequest payload,
+        public async Task SignMintingPayloadAsync(string userDeviceId, string aftermarketDeviceSignature, string userSignature,
             CancellationToken cancellationToken = default)
         {
             using (var client = _httpClientFactory.CreateClient(ApiNames.Devices))
             {
-                var response = await client.GetAsync($"/device-definitions?make={make}&model={model}&year={year}", cancellationToken);
+#if NETSTANDARD
+                var content = new StringContent(JsonConvert.SerializeObject(new { aftermarketDeviceSignature, userSignature }), Encoding.UTF8, "application/json");
+#elif NET6_0_OR_GREATER
+                var content = new StringContent(JsonSerializer.Serialize(new { countryCode, vin, canProtocol }));
+#endif
+                var response = await client.PostAsync($"/v1/user/devices/{userDeviceId}/commands/mint", content, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -181,7 +211,7 @@ namespace Dimo.Client.Core.Services.Devices
         {
             using (var client = _httpClientFactory.CreateClient(ApiNames.Devices))
             {
-                var response = await client.GetAsync($"/device-definitions?make={make}&model={model}&year={year}", cancellationToken);
+                var response = await client.PostAsync($"/v1/user/devices/{userDeviceId}/commands/opt-in",  null, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -196,7 +226,7 @@ namespace Dimo.Client.Core.Services.Devices
         {
             using (var client = _httpClientFactory.CreateClient(ApiNames.Devices))
             {
-                var response = await client.GetAsync($"/device-definitions?make={make}&model={model}&year={year}", cancellationToken);
+                var response = await client.PostAsync($"/v1/user/devices/{userDeviceId}/commands/refresh", null, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -211,7 +241,7 @@ namespace Dimo.Client.Core.Services.Devices
         {
             using (var client = _httpClientFactory.CreateClient(ApiNames.Devices))
             {
-                var response = await client.GetAsync($"/device-definitions?make={make}&model={model}&year={year}", cancellationToken);
+                var response = await client.GetAsync($"/v1/user/devices/{userDeviceId}/aftermarket/commands/pair", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -222,11 +252,20 @@ namespace Dimo.Client.Core.Services.Devices
             }
         }
 
-        public async Task SignPairingPayloadAsync(string userDeviceId, string signature, CancellationToken cancellationToken = default)
+        public async Task SignPairingPayloadAsync(string userDeviceId, int[] aftermarketDeviceSignature,
+            string externalId, int[] signature, CancellationToken cancellationToken = default)
         {
             using (var client = _httpClientFactory.CreateClient(ApiNames.Devices))
             {
-                var response = await client.GetAsync($"/device-definitions?make={make}&model={model}&year={year}", cancellationToken);
+#if NETSTANDARD
+                var content =
+                    new StringContent(JsonConvert.SerializeObject(new { aftermarketDeviceSignature, externalId, signature }),
+                        Encoding.UTF8, "application/json");
+#elif NET6_0_OR_GREATER
+                var content = new StringContent(JsonSerializer.Serialize(new { aftermarketDeviceSignature, externalId, signature }));
+#endif
+                var response = await client.PostAsync($"/v1/user/devices/{userDeviceId}/aftermarket/commands/pair", content,
+                    cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -241,7 +280,7 @@ namespace Dimo.Client.Core.Services.Devices
         {
             using (var client = _httpClientFactory.CreateClient(ApiNames.Devices))
             {
-                var response = await client.GetAsync($"/device-definitions?make={make}&model={model}&year={year}", cancellationToken);
+                var response = await client.PostAsync($"/v1/vehicle/{tokenId}/commands/doors/lock",null, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -262,7 +301,7 @@ namespace Dimo.Client.Core.Services.Devices
         {
             using (var client = _httpClientFactory.CreateClient(ApiNames.Devices))
             {
-                var response = await client.GetAsync($"/device-definitions?make={make}&model={model}&year={year}", cancellationToken);
+                var response = await client.PostAsync($"/v1/vehicle/{tokenId}/commands/doors/unlock", null, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -283,7 +322,7 @@ namespace Dimo.Client.Core.Services.Devices
         {
             using (var client = _httpClientFactory.CreateClient(ApiNames.Devices))
             {
-                var response = await client.GetAsync($"/device-definitions?make={make}&model={model}&year={year}", cancellationToken);
+                var response = await client.PostAsync($"/v1/vehicle/{tokenId}/commands/frunk/open", null, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -304,7 +343,7 @@ namespace Dimo.Client.Core.Services.Devices
         {
             using (var client = _httpClientFactory.CreateClient(ApiNames.Devices))
             {
-                var response = await client.GetAsync($"/device-definitions?make={make}&model={model}&year={year}", cancellationToken);
+                var response = await client.PostAsync($"/v1/vehicle/{tokenId}/commands/trunk/open", null, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -325,7 +364,7 @@ namespace Dimo.Client.Core.Services.Devices
         {
             using (var client = _httpClientFactory.CreateClient(ApiNames.Devices))
             {
-                var response = await client.GetAsync($"/device-definitions?make={make}&model={model}&year={year}", cancellationToken);
+                var response = await client.GetAsync($"/v1/user/devices/{userDeviceId}/error-codes", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -346,7 +385,12 @@ namespace Dimo.Client.Core.Services.Devices
         {
             using (var client = _httpClientFactory.CreateClient(ApiNames.Devices))
             {
-                var response = await client.GetAsync($"/device-definitions?make={make}&model={model}&year={year}", cancellationToken);
+#if NETSTANDARD
+                var content = new StringContent(JsonConvert.SerializeObject(new { errorCodes }), Encoding.UTF8, "application/json");
+#elif NET6_0_OR_GREATER
+                var content = new StringContent(JsonSerializer.Serialize(new { errorCodes }));
+#endif
+                var response = await client.PostAsync($"/v1/user/devices/{userDeviceId}/error-codes", content, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -367,7 +411,7 @@ namespace Dimo.Client.Core.Services.Devices
         {
             using (var client = _httpClientFactory.CreateClient(ApiNames.Devices))
             {
-                var response = await client.GetAsync($"/device-definitions?make={make}&model={model}&year={year}", cancellationToken);
+                var response = await client.PostAsync($"/v1/user/devices/{userDeviceId}/error-codes/clear",  null, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -384,11 +428,11 @@ namespace Dimo.Client.Core.Services.Devices
             }
         }
 
-        public async Task<AftermarketDevice> GetAftermarketDeviceAsync(string userDeviceId, CancellationToken cancellationToken = default)
+        public async Task<AftermarketDevice> GetAftermarketDeviceAsync(long tokenId, CancellationToken cancellationToken = default)
         {
             using (var client = _httpClientFactory.CreateClient(ApiNames.Devices))
             {
-                var response = await client.GetAsync($"/device-definitions?make={make}&model={model}&year={year}", cancellationToken);
+                var response = await client.GetAsync($"/v1/aftermarket/device/{tokenId}", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -405,11 +449,26 @@ namespace Dimo.Client.Core.Services.Devices
             }
         }
 
+        public async Task<Stream> GetAftermarketDeviceImageAsync(long tokenId, CancellationToken cancellationToken = default)
+        {
+            using (var client = _httpClientFactory.CreateClient(ApiNames.Devices))
+            {
+                var response = await client.GetAsync($"/v1/aftermarket/device/{tokenId}/image", cancellationToken);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadAsStreamAsync();
+                }
+
+                throw new HttpRequestException(response.ReasonPhrase);
+            }
+        }
+
         public async Task<AftermarketDevice> GetAftermarketDeviceMetadataByAddressAsync(string address, CancellationToken cancellationToken = default)
         {
             using (var client = _httpClientFactory.CreateClient(ApiNames.Devices))
             {
-                var response = await client.GetAsync($"/device-definitions?make={make}&model={model}&year={year}", cancellationToken);
+                var response = await client.GetAsync($"/v1/aftermarket/device/by-address/{address}", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
