@@ -5,7 +5,4 @@
     <PackageReference Include="Nethereum.Web3" />
   </ItemGroup>
   
-  <ItemGroup Condition="'$(IsNetStandard)' == 'true'">    
-    <PackageReference Include="Newtonsoft.Json" />
-  </ItemGroup>
 </Project>

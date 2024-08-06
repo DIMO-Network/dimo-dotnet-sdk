@@ -54,8 +54,8 @@ namespace Dimo.Client.Core.Models
 
     public class Location
     {
-        public decimal Latitude { get; set; }
-        public decimal Longitude { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     }
     
     public class Lora
@@ -149,8 +149,8 @@ namespace Dimo.Client.Core.Models
     
     public record Location
     {
-        public decimal Latitude { get; init; }
-        public decimal Longitude { get; init; }
+        public double Latitude { get; init; }
+        public double Longitude { get; init; }
     }
     
     public record Lora

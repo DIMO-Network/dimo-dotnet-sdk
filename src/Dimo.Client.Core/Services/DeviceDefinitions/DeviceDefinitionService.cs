@@ -3,10 +3,10 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Dimo.Client.Core.Models;
-
 #if NETSTANDARD
 using Newtonsoft.Json;                    
 #elif NET6_0_OR_GREATER
+using System.Text.Json;
 using System.Net.Http.Json;
 #endif
 
@@ -30,7 +30,6 @@ namespace Dimo.Client.Core.Services.DeviceDefinitions
                 {
 #if NETSTANDARD
                     var json = await response.Content.ReadAsStringAsync();
-
                     return JsonConvert.DeserializeObject<DeviceDefinition>(json);
 #elif NET6_0_OR_GREATER
                     return await response.Content.ReadFromJsonAsync<DeviceDefinition>(cancellationToken: cancellationToken);
@@ -51,7 +50,6 @@ namespace Dimo.Client.Core.Services.DeviceDefinitions
                 {
 #if NETSTANDARD
                     var json = await response.Content.ReadAsStringAsync();
-
                     return JsonConvert.DeserializeObject<DeviceDefinition>(json);
 #elif NET6_0_OR_GREATER
                     return await response.Content.ReadFromJsonAsync<DeviceDefinition>(cancellationToken: cancellationToken);
@@ -72,7 +70,6 @@ namespace Dimo.Client.Core.Services.DeviceDefinitions
                 {
 #if NETSTANDARD
                     var json = await response.Content.ReadAsStringAsync();
-
                     return JsonConvert.DeserializeObject<IReadOnlyCollection<DeviceMake>>(json);
 #elif NET6_0_OR_GREATER
                     return await response.Content.ReadFromJsonAsync<IReadOnlyCollection<DeviceMake>>(cancellationToken: cancellationToken);
@@ -93,7 +90,6 @@ namespace Dimo.Client.Core.Services.DeviceDefinitions
                 {
 #if NETSTANDARD
                     var json = await response.Content.ReadAsStringAsync();
-
                     return JsonConvert.DeserializeObject<DeviceType>(json);
 #elif NET6_0_OR_GREATER
                     return await response.Content.ReadFromJsonAsync<DeviceType>(cancellationToken: cancellationToken);

@@ -1,4 +1,7 @@
+using System;
+using System.Threading.Tasks;
 using Dimo.Client.Core;
+using Dimo.Client.Core.Services.Authentication;
 
 namespace Dimo.Client
 {
@@ -8,6 +11,13 @@ namespace Dimo.Client
     public class DimoClientBuilder
     {
         internal DimoEnvironment Environment { get; private set; }
+        internal ClientCredentials Credentials { get; private set; }
+        
+        internal bool CoreServices { get; private set; }
+        internal bool IdentityApi { get; private set; }
+        internal bool TelemetryApi { get; private set; }
+        internal bool Streamr { get; private set; }
+        
         public DimoClientBuilder()
         {
             
@@ -31,6 +41,7 @@ namespace Dimo.Client
         /// <returns><see cref="DimoClientBuilder"/></returns>
         public DimoClientBuilder AddIdentityApi()
         {
+            IdentityApi = true;
             return this;
         }
         
@@ -40,6 +51,7 @@ namespace Dimo.Client
         /// <returns><see cref="DimoClientBuilder"/></returns>
         public DimoClientBuilder AddTelemetryApi()
         {
+            TelemetryApi = true;
             return this;
         }
         
@@ -49,6 +61,13 @@ namespace Dimo.Client
         /// <returns><see cref="DimoClientBuilder"/></returns>
         public DimoClientBuilder AddStreamr()
         {
+            Streamr = true;
+            return this;
+        }
+        
+        public DimoClientBuilder AddCoreServices()
+        {
+            CoreServices = true;
             return this;
         }
         
@@ -58,9 +77,23 @@ namespace Dimo.Client
         /// <returns><see cref="DimoClientBuilder"/></returns>
         public DimoClientBuilder AddAllServices()
         {
-            return AddIdentityApi()
+            return
+                AddCoreServices()
+                .AddIdentityApi()
                 .AddTelemetryApi()
                 .AddStreamr();
+        }
+
+        public DimoClientBuilder WithCredentials(ClientCredentials credentials)
+        {
+            Credentials = credentials;
+            return this;
+        }
+
+        public DimoClientBuilder WithCredentials(Func<ClientCredentials, ClientCredentials> config)
+        {
+            Credentials = config(new ClientCredentials());
+            return this;
         }
         
         
@@ -68,9 +101,9 @@ namespace Dimo.Client
         /// Builds the DimoClient instance with the specified configuration.
         /// </summary>
         /// <returns><see cref="DimoClient"/></returns>
-        public DimoClient Build()
+        public IDimoClient Build()
         {
-            return new DimoClient(Environment);
+            return new DimoClient(Environment, CoreServices, IdentityApi, TelemetryApi, Streamr);
         }
     }
 }

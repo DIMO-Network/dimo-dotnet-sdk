@@ -51,6 +51,7 @@ namespace Dimo.Client.Core
     
     internal static class Constants
     {
+        public const string UserAgent = "dimo-dotnet-sdk";
         public static Dictionary<DimoEnvironment, Dictionary<string, string>> ApiUrls =
             new Dictionary<DimoEnvironment, Dictionary<string, string>>
             {
@@ -160,7 +161,7 @@ namespace Dimo.Client.Core
             { 
                 DimoEnvironment.Production, 
                 new RpcSigner {
-                    NftAddress = "0x45fbCD3ef7361d156e8b16F5538AE36DEdf61Da8",
+                    NftAddress = "0xbA5738a18d83D41847dfFbDC6101d37C69c9B0cF",
                     RpcProvider = "https://eth.llamarpc.com"
                 }
             }

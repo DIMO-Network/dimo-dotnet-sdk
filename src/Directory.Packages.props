@@ -6,7 +6,7 @@
   <ItemGroup>
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Http" Version="8.0.0" />
-    <PackageVersion Include="Nethereum.Web3" Version="4.21.2" />
+    <PackageVersion Include="Nethereum.Web3" Version="4.21.3" />
   </ItemGroup>
   <ItemGroup Condition="'$(IsNetStandard)' == 'true'">
     <PackageVersion Include="StrawberryShake.Transport.Http" Version="13.9.8" />

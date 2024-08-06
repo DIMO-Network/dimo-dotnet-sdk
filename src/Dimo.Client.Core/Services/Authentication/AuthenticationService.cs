@@ -18,12 +18,10 @@ namespace Dimo.Client.Core.Services.Authentication
     internal sealed class AuthenticationService : IAuthenticationService
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly RpcSigner _rpcSigner;
         
-        public AuthenticationService(IHttpClientFactory httpClientFactory, RpcSigner rpcSigner)
+        public AuthenticationService(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
-            _rpcSigner = rpcSigner;
         }
         
         public async Task<SignatureChallenge> GenerateChallengeAsync(string clientId, string domain, string address,
@@ -35,7 +33,7 @@ namespace Dimo.Client.Core.Services.Authentication
                 {
                     new KeyValuePair<string, string>("scope", "openid email"),
                     new KeyValuePair<string, string>("response_type", "code"),
-                    new KeyValuePair<string, string>("clientId", clientId),
+                    new KeyValuePair<string, string>("client_id", clientId),
                     new KeyValuePair<string, string>("domain", domain),
                     new KeyValuePair<string, string>("address", address)
                 });
@@ -48,13 +46,12 @@ namespace Dimo.Client.Core.Services.Authentication
                 {
 #if NETSTANDARD
                     var json = await response.Content.ReadAsStringAsync();
-
                     return JsonConvert.DeserializeObject<SignatureChallenge>(json);
 #elif NET6_0_OR_GREATER
                     return await response.Content.ReadFromJsonAsync<SignatureChallenge>(cancellationToken: cancellationToken);
 #endif
                 }
-
+                
                 throw new HttpRequestException(response.ReasonPhrase);
             }
         }
@@ -77,7 +74,6 @@ namespace Dimo.Client.Core.Services.Authentication
                     new KeyValuePair<string, string>("domain", domain),
                     new KeyValuePair<string, string>("state", state),
                     new KeyValuePair<string, string>("grant_type", "authorization_code"),
-                    
                     new KeyValuePair<string, string>("signature", signature)
                 });
 
@@ -89,11 +85,11 @@ namespace Dimo.Client.Core.Services.Authentication
                 {
 #if NETSTANDARD
                     var json = await response.Content.ReadAsStringAsync();
-
-                    return JsonConvert.DeserializeObject<Auth>(json);
+                    var auth = JsonConvert.DeserializeObject<Auth>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<Auth>(cancellationToken: cancellationToken);
+                    var auth = await response.Content.ReadFromJsonAsync<Auth>(cancellationToken: cancellationToken);
 #endif
+                    return auth;
                 }
                 
                 throw new HttpRequestException(response.ReasonPhrase);
@@ -106,7 +102,6 @@ namespace Dimo.Client.Core.Services.Authentication
             var challenge = await GenerateChallengeAsync(clientId, domain, address, cancellationToken);
             var signature = await SignChallengeAsync(challenge.Challenge, privateKey, cancellationToken);
             var auth = await SubmitChallengeAsync(clientId, domain, challenge.State, signature, cancellationToken);
-            
             return auth;
         }
     }

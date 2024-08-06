@@ -29,67 +29,84 @@ namespace Dimo.Client.Core
             services.AddScoped<IVehicleSignalDecodingService, VehicleSignalDecodingService>();
             
             services.AddSingleton<RpcSigner>(Constants.RpcSigners[environment]);
-
-            services.AddTransient<AuthenticationHandler>();
             
             services.AddHttpClient(ApiNames.Auth, client =>
             {
                 client.BaseAddress = new Uri(Constants.ApiUrls[environment][ApiNames.Auth]);
+                client.DefaultRequestHeaders.Add("User-Agent", Constants.UserAgent);
+            });
+            
+            services.AddHttpClient(ApiNames.TokenExchange, client =>
+            {
+                client.BaseAddress = new Uri(Constants.ApiUrls[environment][ApiNames.TokenExchange]);
+                client.DefaultRequestHeaders.Add("User-Agent", Constants.UserAgent);
             });
 
             services.AddHttpClient(ApiNames.DeviceData, client =>
             {
                 client.BaseAddress = new Uri(Constants.ApiUrls[environment][ApiNames.DeviceData]);
-            }).AddHttpMessageHandler<AuthenticationHandler>();
+                client.DefaultRequestHeaders.Add("User-Agent", Constants.UserAgent);
+            });
             
             services.AddHttpClient(ApiNames.DeviceDefinitions, client =>
             {
                 client.BaseAddress = new Uri(Constants.ApiUrls[environment][ApiNames.DeviceDefinitions]);
-            }).AddHttpMessageHandler<AuthenticationHandler>();
+                client.DefaultRequestHeaders.Add("User-Agent", Constants.UserAgent);
+            });
             
             services.AddHttpClient(ApiNames.Devices, client =>
             {
                 client.BaseAddress = new Uri(Constants.ApiUrls[environment][ApiNames.Devices]);
-            }).AddHttpMessageHandler<AuthenticationHandler>();
-            
-            services.AddHttpClient(ApiNames.TokenExchange, client =>
-            {
-                client.BaseAddress = new Uri(Constants.ApiUrls[environment][ApiNames.TokenExchange]);
+                client.DefaultRequestHeaders.Add("User-Agent", Constants.UserAgent);
             });
             
             services.AddHttpClient(ApiNames.Events, client =>
             {
                 client.BaseAddress = new Uri(Constants.ApiUrls[environment][ApiNames.Events]);
-            }).AddHttpMessageHandler<AuthenticationHandler>();
+                client.DefaultRequestHeaders.Add("User-Agent", Constants.UserAgent);
+            });
             
             services.AddHttpClient(ApiNames.Trips, client =>
             {
                 client.BaseAddress = new Uri(Constants.ApiUrls[environment][ApiNames.Trips]);
-            }).AddHttpMessageHandler<AuthenticationHandler>();
+                client.DefaultRequestHeaders.Add("User-Agent", Constants.UserAgent);
+            });
             
             services.AddHttpClient(ApiNames.User, client =>
             {
                 client.BaseAddress = new Uri(Constants.ApiUrls[environment][ApiNames.User]);
-            }).AddHttpMessageHandler<AuthenticationHandler>();
+                client.DefaultRequestHeaders.Add("User-Agent", Constants.UserAgent);
+            });
             
             services.AddHttpClient(ApiNames.Valuations, client =>
             {
                 client.BaseAddress = new Uri(Constants.ApiUrls[environment][ApiNames.Valuations]);
-            }).AddHttpMessageHandler<AuthenticationHandler>();
+                client.DefaultRequestHeaders.Add("User-Agent", Constants.UserAgent);
+            });
             
             services.AddHttpClient(ApiNames.VehicleSignalDecoding, client =>
             {
                 client.BaseAddress = new Uri(Constants.ApiUrls[environment][ApiNames.VehicleSignalDecoding]);
-            }).AddHttpMessageHandler<AuthenticationHandler>();
+                client.DefaultRequestHeaders.Add("User-Agent", Constants.UserAgent);
+            });
             
             return services;
         }
         
-        public static IServiceCollection AddCoreServices(this IServiceCollection services, DimoEnvironment environment, Action<ClientCredentials> credentials)
+        public static IServiceCollection AddCoreServices(this IServiceCollection services, DimoEnvironment environment, Func<ClientCredentials, ClientCredentials> credentials)
         {
             services.AddCoreServices(environment);
             
             return services;
         }
+        
+        public static IServiceCollection AddCoreServices(this IServiceCollection services, DimoEnvironment environment, ClientCredentials credentials)
+        {
+            services.AddCoreServices(environment);
+            
+            return services;
+        }
+        
+        
     }
 }
