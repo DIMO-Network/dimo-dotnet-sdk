@@ -11,8 +11,13 @@ using Dimo.Client.Core.Services.Trips;
 using Dimo.Client.Core.Services.Users;
 using Dimo.Client.Core.Services.Valuations;
 using Dimo.Client.Core.Services.VehicleSignalDecoding;
+using Dimo.Client.Graphql;
+using Dimo.Client.Graphql.Services.Identity;
 using Dimo.Client.Streamr;
 using Microsoft.Extensions.DependencyInjection;
+using GraphEnvironment = Dimo.Client.Graphql.DimoEnvironment;
+using DimoEnvironment = Dimo.Client.Core.DimoEnvironment;
+using StreamrEnvironment = Dimo.Client.Streamr.DimoEnvironment;
 
 namespace Dimo.Client
 {
@@ -28,6 +33,7 @@ namespace Dimo.Client
         IUsersService UsersService { get; }
         IValuationsService ValuationsService { get; }
         IVehicleSignalDecodingService VehicleSignalDecodingService { get; }
+        IIdentityService IdentityApi { get; }
         
     }
 
@@ -42,46 +48,49 @@ namespace Dimo.Client
         public ITripsService TripsService => _provider.GetRequiredService<ITripsService>();
         public IUsersService UsersService => _provider.GetRequiredService<IUsersService>();
         public IValuationsService ValuationsService => _provider.GetRequiredService<IValuationsService>();
+        public IIdentityService IdentityApi => _provider.GetRequiredService<IIdentityService>();
         public IVehicleSignalDecodingService VehicleSignalDecodingService => _provider.GetRequiredService<IVehicleSignalDecodingService>();
 
         private readonly ServiceProvider _provider;
 
-        public DimoClient(DimoEnvironment environment, bool coreServices, bool identityApi, bool telemetryApi, bool streamr)
+        public DimoClient(DimoEnvironment environment, bool coreServices, bool graphql, bool streamr)
         {
-            var prov = new ServiceCollection();
+            var collection = new ServiceCollection();
             
             if (coreServices)
             {
-                prov.AddCoreServices(environment);
-            }
-            /*
-            if (identityApi)
-            {
-                prov.AddIdentityApi();
+                collection.AddCoreServices(environment);
             }
             
-            if (telemetryApi)
+            if (graphql)
             {
-                prov.AddTelemetryApi();
+                collection.AddGraphql((GraphEnvironment)environment);
             }
-            */
+            
             if (streamr)
             {
-                prov.AddStreamr();
+                collection.AddStreamr((StreamrEnvironment)environment);
             }
             
-            _provider = prov.BuildServiceProvider();
+            _provider = collection.BuildServiceProvider();
         }
         public void Dispose()
         {
             // TODO release managed resources here
+            if (_provider == null) return;
             _provider.Dispose();
         }
 
         public async ValueTask DisposeAsync()
         {
             // TODO release managed resources here
+            if (_provider == null) return;
             await _provider.DisposeAsync();
+        }
+        
+        ~DimoClient()
+        {
+            Dispose();
         }
     }
 }

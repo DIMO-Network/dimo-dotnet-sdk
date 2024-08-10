@@ -14,8 +14,7 @@ namespace Dimo.Client
         internal ClientCredentials Credentials { get; private set; }
         
         internal bool CoreServices { get; private set; }
-        internal bool IdentityApi { get; private set; }
-        internal bool TelemetryApi { get; private set; }
+        internal bool GraphqlServices { get; private set; }
         internal bool Streamr { get; private set; }
         
         public DimoClientBuilder()
@@ -39,19 +38,9 @@ namespace Dimo.Client
         /// Adds support for the GraphQL Identity API to the client.
         /// </summary>
         /// <returns><see cref="DimoClientBuilder"/></returns>
-        public DimoClientBuilder AddIdentityApi()
+        public DimoClientBuilder AddGraphQLServices()
         {
-            IdentityApi = true;
-            return this;
-        }
-        
-        /// <summary>
-        /// Adds support for the GraphQL Telemetry API to the client.
-        /// </summary>
-        /// <returns><see cref="DimoClientBuilder"/></returns>
-        public DimoClientBuilder AddTelemetryApi()
-        {
-            TelemetryApi = true;
+            GraphqlServices = true;
             return this;
         }
         
@@ -79,8 +68,7 @@ namespace Dimo.Client
         {
             return
                 AddCoreServices()
-                .AddIdentityApi()
-                .AddTelemetryApi()
+                .AddGraphQLServices()
                 .AddStreamr();
         }
 
@@ -103,7 +91,7 @@ namespace Dimo.Client
         /// <returns><see cref="DimoClient"/></returns>
         public IDimoClient Build()
         {
-            return new DimoClient(Environment, CoreServices, IdentityApi, TelemetryApi, Streamr);
+            return new DimoClient(Environment, CoreServices, GraphqlServices, Streamr);
         }
     }
 }

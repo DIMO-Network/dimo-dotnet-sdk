@@ -6,9 +6,15 @@ using Dimo.Client.Core;
 var dimoClient = new DimoClientBuilder()
     .WithEnvironment(DimoEnvironment.Production)
     .AddCoreServices()
+    .AddGraphQLServices()
+    .AddStreamr()
     .Build();
 
-var tokenId = 12345;
+// or you can add all services at once
+//var dimoClient = new DimoClientBuilder().AddAllServices().Build();
+
+// uncomment the following code to get data from the rest services.
+/*var tokenId = 12345; // token id from the device you want to get data from
 
 var auth = await dimoClient.AuthenticationService.GetTokenAsync(
     clientId: "<your client id>",
@@ -22,6 +28,11 @@ var privilegeToken = await dimoClient.TokenExchangeService.GetPrivilegeTokenAsyn
     tokenId: tokenId,
     privileges: [1, 2, 3, 4]);
 
-var data = await dimoClient.DeviceDataService.GetVehicleStatusAsync(tokenId, privilegeToken.Token);
+var vehicleStatus = await dimoClient.DeviceDataService.GetVehicleStatusAsync(tokenId, privilegeToken.Token);
 
-Console.WriteLine(data);
+Console.WriteLine(vehicleStatus);*/
+
+// uncomment the following code to get data from the graphql services.
+// var vehicleCount = await dimoClient.IdentityApi.CountDimoVehiclesAsync();
+//
+// Console.WriteLine(vehicleCount);

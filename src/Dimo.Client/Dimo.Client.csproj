@@ -4,6 +4,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dimo.Client.Core\Dimo.Client.Core.csproj" />
+    <ProjectReference Include="..\Dimo.Client.Graphql\Dimo.Client.Graphql.csproj" />
     <ProjectReference Include="..\Dimo.Client.Streamr\Dimo.Client.Streamr.csproj" />
   </ItemGroup>
 </Project>
