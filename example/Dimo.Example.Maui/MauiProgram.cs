@@ -1,5 +1,4 @@
 ﻿using Dimo.Client;
-using Dimo.Client.Core;
 using Microsoft.Extensions.Logging;
 
 namespace Dimo.Example.Maui;

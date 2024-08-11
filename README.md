@@ -119,9 +119,9 @@ In order to authenticate and access private API data, you will need to [authenti
 2. Access to a signer wallet and its private keys. Best practice is to rotate this frequently for security purposes.
 
 > At its core, a Web3 wallet is a software program that stores private keys, which are necessary for accessing blockchain networks and conducting transactions. Unlike traditional wallets, which store physical currency, Web3 wallets store digital assets such as Bitcoin, Ethereum, and NFTs.
-
+___
 **_NOTE:_** The signer wallet here is recommended to be different from the spender or holder wallet for your [DIMO Developer License](https://github.com/DIMO-Network/developer-license-donotus).
-
+___
 There two ways to authenticate with the DIMO Auth Server based on the steps listed in [Wallet-based Authentication Flow](https://docs.Dimo.zone/developer-platform/getting-started/authentication/wallet-based-authentication-flow):
 
 1. Using `GenerateChallengeAsync`, `SignChallengeAsync`, and `SubmitChallengeAsync` methods.
@@ -198,8 +198,9 @@ var vehicleStatus = await dimoClient.DeviceDataService.GetVehicleStatusAsync(tok
 
 Console.WriteLine(vehicleStatus);
 ```
+___
 **_NOTE:_**  for the `privileges` parameter you can check the [DIMO API documentation](https://docs.Dimo.zone/developer-platform/rest-api-references/dimo-protocol/token-exchange-api/token-exchange-api-endpoints#references-for-privilege-sharing) for the available privileges.
-
+___
 #### Querying the GraphQL API
 
 The SDK accepts any type of valid custom GraphQL queries, but we've also included a few sample queries to help you understand the DIMO GraphQL APIs.
@@ -229,5 +230,6 @@ var result = await dimoClient.TelemetryService.ExecuteQueryAsync<TResponse>(quer
 
 Console.WriteLine(result);
 ```
+___
 **_NOTE:_**  The `ExecuteQueryAsync` method accepts a generic type `TResponse` which is the type of the response you expect from the GraphQL query.
-
+___

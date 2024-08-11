@@ -1,12 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
-    <PackageReference Include="Microsoft.Extensions.Http" />
-    <PackageReference Include="Nethereum.Web3" />
+    
   </ItemGroup>
 
-  <ItemGroup Condition="'$(IsNetStandard)' == 'true'">
-    <PackageReference Include="Newtonsoft.Json" />
-  </ItemGroup>
+  
   
 </Project>

@@ -1,24 +1,18 @@
 using System;
 using System.Threading.Tasks;
-using Dimo.Client.Core;
-using Dimo.Client.Core.Services.Authentication;
-using Dimo.Client.Core.Services.DeviceData;
-using Dimo.Client.Core.Services.DeviceDefinitions;
-using Dimo.Client.Core.Services.Devices;
-using Dimo.Client.Core.Services.Events;
-using Dimo.Client.Core.Services.TokenExchange;
-using Dimo.Client.Core.Services.Trips;
-using Dimo.Client.Core.Services.Users;
-using Dimo.Client.Core.Services.Valuations;
-using Dimo.Client.Core.Services.VehicleSignalDecoding;
-using Dimo.Client.Graphql;
-using Dimo.Client.Graphql.Services.Identity;
-using Dimo.Client.Graphql.Services.Telemetry;
-using Dimo.Client.Streamr;
+using Dimo.Client.Services.Authentication;
+using Dimo.Client.Services.DeviceData;
+using Dimo.Client.Services.DeviceDefinitions;
+using Dimo.Client.Services.Devices;
+using Dimo.Client.Services.Events;
+using Dimo.Client.Services.Identity;
+using Dimo.Client.Services.Telemetry;
+using Dimo.Client.Services.TokenExchange;
+using Dimo.Client.Services.Trips;
+using Dimo.Client.Services.Users;
+using Dimo.Client.Services.Valuations;
+using Dimo.Client.Services.VehicleSignalDecoding;
 using Microsoft.Extensions.DependencyInjection;
-using GraphEnvironment = Dimo.Client.Graphql.DimoEnvironment;
-using DimoEnvironment = Dimo.Client.Core.DimoEnvironment;
-using StreamrEnvironment = Dimo.Client.Streamr.DimoEnvironment;
 
 namespace Dimo.Client
 {
@@ -57,7 +51,12 @@ namespace Dimo.Client
 
         private readonly ServiceProvider _provider;
 
-        public DimoClient(DimoEnvironment environment, bool coreServices, bool graphql, bool streamr)
+        public DimoClient(
+            DimoEnvironment environment,
+            ClientCredentials credentials,
+            bool coreServices, 
+            bool graphql, 
+            bool streamr)
         {
             var collection = new ServiceCollection();
             
@@ -68,12 +67,12 @@ namespace Dimo.Client
             
             if (graphql)
             {
-                collection.AddGraphql((GraphEnvironment)environment);
+                collection.AddGraphql(environment);
             }
             
-            if (streamr)
+            if (credentials != null)
             {
-                collection.AddStreamr((StreamrEnvironment)environment);
+                collection.AddSingleton(credentials);
             }
             
             _provider = collection.BuildServiceProvider();

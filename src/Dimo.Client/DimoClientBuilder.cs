@@ -1,7 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using Dimo.Client.Core;
-using Dimo.Client.Core.Services.Authentication;
 
 namespace Dimo.Client
 {
@@ -84,14 +82,13 @@ namespace Dimo.Client
             return this;
         }
         
-        
         /// <summary>
         /// Builds the DimoClient instance with the specified configuration.
         /// </summary>
         /// <returns><see cref="DimoClient"/></returns>
         public IDimoClient Build()
         {
-            return new DimoClient(Environment, CoreServices, GraphqlServices, Streamr);
+            return new DimoClient(Environment, Credentials, CoreServices, GraphqlServices, Streamr);
         }
     }
 }
