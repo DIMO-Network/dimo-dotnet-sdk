@@ -26,17 +26,13 @@ namespace Dimo.Client.Core.Services.Trips
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
                 var response = await client.GetAsync($"/v1/vehicle/{tokenId}/trips", cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<TripHistory>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<TripHistory>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<TripHistory>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<TripHistory>(cancellationToken: cancellationToken);
 #endif
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
     }

@@ -33,17 +33,13 @@ namespace Dimo.Client.Core.Services.Devices
 #endif
                 var response = await client.PostAsync($"/v1/user/devices", content, cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<CreatedVehicle>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<CreatedVehicle>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<CreatedVehicle>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<CreatedVehicle>(cancellationToken: cancellationToken);
 #endif
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
 
@@ -61,17 +57,13 @@ namespace Dimo.Client.Core.Services.Devices
                 var content = new StringContent(payload, Encoding.UTF8, "application/json");
                 var response = await client.PostAsync($"/v1/user/devices/fromsmartcar", content, cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<CreatedVehicle>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<CreatedVehicle>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<CreatedVehicle>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<CreatedVehicle>(cancellationToken: cancellationToken);
 #endif
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
 
@@ -89,17 +81,13 @@ namespace Dimo.Client.Core.Services.Devices
                 
                 var response = await client.PostAsync($"/v1/user/devices/fromvin", content, cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<CreatedVehicle>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<CreatedVehicle>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<CreatedVehicle>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<CreatedVehicle>(cancellationToken: cancellationToken);
 #endif
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
 
@@ -120,10 +108,7 @@ namespace Dimo.Client.Core.Services.Devices
                 var content = new StringContent(JsonSerializer.Serialize(new { vin, signature }), Encoding.UTF8, "application/json");
                 var response = await client.PatchAsync($"v1/user/devices/{userDeviceId}/vin", content, cancellationToken);
 #endif
-                if (!response.IsSuccessStatusCode)
-                {
-                    throw new HttpRequestException(response.ReasonPhrase);
-                }
+                response.EnsureSuccessStatusCode();
             }
         }
 
@@ -134,17 +119,13 @@ namespace Dimo.Client.Core.Services.Devices
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
                 var response = await client.GetAsync($"/v1/aftermarket/device/by-serial/{serial}/commands/claim", cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<ClaimingPayload>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<ClaimingPayload>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<ClaimingPayload>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<ClaimingPayload>(cancellationToken: cancellationToken);
 #endif
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
 
@@ -160,12 +141,7 @@ namespace Dimo.Client.Core.Services.Devices
 #endif
                 var response = await client.PostAsync($"/v1/aftermarket/device/by-serial/{serial}/commands/claim", content, cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    return;
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
+                response.EnsureSuccessStatusCode();
             }
         }
 
@@ -176,17 +152,13 @@ namespace Dimo.Client.Core.Services.Devices
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
                 var response = await client.GetAsync($"/v1/user/devices/{userDeviceId}/commands/mint", cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<ClaimingPayload>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<ClaimingPayload>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<ClaimingPayload>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<ClaimingPayload>(cancellationToken: cancellationToken);
 #endif
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
 
@@ -203,12 +175,7 @@ namespace Dimo.Client.Core.Services.Devices
 #endif
                 var response = await client.PostAsync($"/v1/user/devices/{userDeviceId}/commands/mint", content, cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    return;
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
+                response.EnsureSuccessStatusCode();
             }
         }
 
@@ -218,13 +185,7 @@ namespace Dimo.Client.Core.Services.Devices
             {
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
                 var response = await client.PostAsync($"/v1/user/devices/{userDeviceId}/commands/opt-in",  null, cancellationToken);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    return; 
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
+                response.EnsureSuccessStatusCode();
             }
         }
 
@@ -234,13 +195,7 @@ namespace Dimo.Client.Core.Services.Devices
             {
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
                 var response = await client.PostAsync($"/v1/user/devices/{userDeviceId}/commands/refresh", null, cancellationToken);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    return;
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
+                response.EnsureSuccessStatusCode();
             }
         }
 
@@ -251,12 +206,7 @@ namespace Dimo.Client.Core.Services.Devices
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
                 var response = await client.GetAsync($"/v1/user/devices/{userDeviceId}/aftermarket/commands/pair", cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    return;
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
+                response.EnsureSuccessStatusCode();
             }
         }
 
@@ -276,12 +226,7 @@ namespace Dimo.Client.Core.Services.Devices
                 var response = await client.PostAsync($"/v1/user/devices/{userDeviceId}/aftermarket/commands/pair", content,
                     cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    return;
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
+                response.EnsureSuccessStatusCode();
             }
         }
 
@@ -292,17 +237,13 @@ namespace Dimo.Client.Core.Services.Devices
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
                 var response = await client.PostAsync($"/v1/vehicle/{tokenId}/commands/doors/lock",null, cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<CommandResponse>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<CommandResponse>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<CommandResponse>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<CommandResponse>(cancellationToken: cancellationToken);
 #endif
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
 
@@ -313,17 +254,13 @@ namespace Dimo.Client.Core.Services.Devices
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
                 var response = await client.PostAsync($"/v1/vehicle/{tokenId}/commands/doors/unlock", null, cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<CommandResponse>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<CommandResponse>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<CommandResponse>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<CommandResponse>(cancellationToken: cancellationToken);
 #endif
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
 
@@ -334,17 +271,13 @@ namespace Dimo.Client.Core.Services.Devices
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
                 var response = await client.PostAsync($"/v1/vehicle/{tokenId}/commands/frunk/open", null, cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<CommandResponse>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<CommandResponse>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<CommandResponse>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<CommandResponse>(cancellationToken: cancellationToken);
 #endif
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
 
@@ -355,17 +288,13 @@ namespace Dimo.Client.Core.Services.Devices
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
                 var response = await client.PostAsync($"/v1/vehicle/{tokenId}/commands/trunk/open", null, cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<CommandResponse>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<CommandResponse>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<CommandResponse>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<CommandResponse>(cancellationToken: cancellationToken);
 #endif
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
 
@@ -376,17 +305,13 @@ namespace Dimo.Client.Core.Services.Devices
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
                 var response = await client.GetAsync($"/v1/user/devices/{userDeviceId}/error-codes", cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<AvailableErrorCode>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<AvailableErrorCode>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<AvailableErrorCode>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<AvailableErrorCode>(cancellationToken: cancellationToken);
 #endif
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
 
@@ -402,18 +327,13 @@ namespace Dimo.Client.Core.Services.Devices
 #endif
                 var response = await client.PostAsync($"/v1/user/devices/{userDeviceId}/error-codes", content, cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-
-                    return JsonConvert.DeserializeObject<AvailableErrorCode>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<AvailableErrorCode>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<AvailableErrorCode>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<AvailableErrorCode>(cancellationToken: cancellationToken);
 #endif
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
 
@@ -423,18 +343,13 @@ namespace Dimo.Client.Core.Services.Devices
             {
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
                 var response = await client.PostAsync($"/v1/user/devices/{userDeviceId}/error-codes/clear",  null, cancellationToken);
-
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<QueryResult>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<QueryResult>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<QueryResult>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<QueryResult>(cancellationToken: cancellationToken);
 #endif
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
 
@@ -445,17 +360,13 @@ namespace Dimo.Client.Core.Services.Devices
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
                 var response = await client.GetAsync($"/v1/aftermarket/device/{tokenId}", cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<AftermarketDevice>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<AftermarketDevice>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<AftermarketDevice>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<AftermarketDevice>(cancellationToken: cancellationToken);
 #endif
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
 
@@ -466,16 +377,12 @@ namespace Dimo.Client.Core.Services.Devices
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
                 var response = await client.GetAsync($"/v1/aftermarket/device/{tokenId}/image", cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    return await response.Content.ReadAsStreamAsync();
+                return await response.Content.ReadAsStreamAsync();
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadAsStreamAsync(cancellationToken);
+                return await response.Content.ReadAsStreamAsync(cancellationToken);
 #endif
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
 
@@ -486,17 +393,13 @@ namespace Dimo.Client.Core.Services.Devices
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
                 var response = await client.GetAsync($"/v1/aftermarket/device/by-address/{address}", cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode(); 
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<AftermarketDevice>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<AftermarketDevice>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<AftermarketDevice>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<AftermarketDevice>(cancellationToken: cancellationToken);
 #endif
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
     }

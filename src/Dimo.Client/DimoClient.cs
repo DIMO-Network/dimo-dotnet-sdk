@@ -13,6 +13,7 @@ using Dimo.Client.Core.Services.Valuations;
 using Dimo.Client.Core.Services.VehicleSignalDecoding;
 using Dimo.Client.Graphql;
 using Dimo.Client.Graphql.Services.Identity;
+using Dimo.Client.Graphql.Services.Telemetry;
 using Dimo.Client.Streamr;
 using Microsoft.Extensions.DependencyInjection;
 using GraphEnvironment = Dimo.Client.Graphql.DimoEnvironment;
@@ -33,8 +34,8 @@ namespace Dimo.Client
         IUsersService UsersService { get; }
         IValuationsService ValuationsService { get; }
         IVehicleSignalDecodingService VehicleSignalDecodingService { get; }
-        IIdentityService IdentityApi { get; }
-        
+        IIdentityService IdentityService { get; }
+        ITelemetryService TelemetryService { get; }
     }
 
     internal class DimoClient : IDimoClient
@@ -48,7 +49,10 @@ namespace Dimo.Client
         public ITripsService TripsService => _provider.GetRequiredService<ITripsService>();
         public IUsersService UsersService => _provider.GetRequiredService<IUsersService>();
         public IValuationsService ValuationsService => _provider.GetRequiredService<IValuationsService>();
-        public IIdentityService IdentityApi => _provider.GetRequiredService<IIdentityService>();
+        public IIdentityService IdentityService => _provider.GetRequiredService<IIdentityService>();
+        public ITelemetryService TelemetryService => _provider.GetRequiredService<ITelemetryService>();
+        
+        
         public IVehicleSignalDecodingService VehicleSignalDecodingService => _provider.GetRequiredService<IVehicleSignalDecodingService>();
 
         private readonly ServiceProvider _provider;
@@ -74,6 +78,7 @@ namespace Dimo.Client
             
             _provider = collection.BuildServiceProvider();
         }
+        
         public void Dispose()
         {
             // TODO release managed resources here

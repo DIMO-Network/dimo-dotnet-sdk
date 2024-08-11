@@ -29,17 +29,13 @@ namespace Dimo.Client.Core.Services.DeviceData
                 
                 var response = await client.GetAsync($"/v2/vehicle/{tokenId}/history?startDate={startDate}&endDate={endDate}", cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<VehicleHistory>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<VehicleHistory>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<VehicleHistory>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<VehicleHistory>(cancellationToken: cancellationToken);
 #endif
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
 
@@ -51,17 +47,13 @@ namespace Dimo.Client.Core.Services.DeviceData
                 
                 var response = await client.GetAsync($"/v1/vehicle/{tokenId}/status", cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<VehicleStatus>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<VehicleStatus>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<VehicleStatus>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<VehicleStatus>(cancellationToken: cancellationToken);
 #endif
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
 
@@ -72,17 +64,13 @@ namespace Dimo.Client.Core.Services.DeviceData
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
                 var response = await client.GetAsync($"/v1/vehicle/{tokenId}/status-raw", cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<RawVehicleStatus>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<RawVehicleStatus>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<RawVehicleStatus>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<RawVehicleStatus>(cancellationToken: cancellationToken);
 #endif
-                }
-                
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
 
@@ -93,17 +81,13 @@ namespace Dimo.Client.Core.Services.DeviceData
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
                 var response = await client.GetAsync($"/v1/user/device-data/{userDeviceId}/status", cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<VehicleStatus>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<VehicleStatus>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<VehicleStatus>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<VehicleStatus>(cancellationToken: cancellationToken);
 #endif
-                }
-                
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
 
@@ -115,17 +99,13 @@ namespace Dimo.Client.Core.Services.DeviceData
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
                 var response = await client.GetAsync($"/v1/user/device-data/{userDeviceId}/historical", cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<VehicleHistory>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<VehicleHistory>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<VehicleHistory>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<VehicleHistory>(cancellationToken: cancellationToken);
 #endif
-                }
-                
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
 
@@ -136,17 +116,13 @@ namespace Dimo.Client.Core.Services.DeviceData
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
                 var response = await client.GetAsync($"/v1/user/device-data/{userDeviceId}/export/json/email", cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<ExportDataResponse>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<ExportDataResponse>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<ExportDataResponse>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<ExportDataResponse>(cancellationToken: cancellationToken);
 #endif
-                }
-                
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
     }

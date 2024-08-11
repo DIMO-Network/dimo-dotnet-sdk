@@ -27,18 +27,14 @@ namespace Dimo.Client.Core.Services.Events
             {
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
                 var response = await client.GetAsync($"/v1/event?device_id={deviceId}&type={deviceType}&sub_type={subType}", cancellationToken);
-
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<IReadOnlyCollection<DeviceEvent>>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<IReadOnlyCollection<DeviceEvent>>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<IReadOnlyCollection<DeviceEvent>>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<IReadOnlyCollection<DeviceEvent>>(cancellationToken: cancellationToken);
 #endif
-                }
 
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
     }

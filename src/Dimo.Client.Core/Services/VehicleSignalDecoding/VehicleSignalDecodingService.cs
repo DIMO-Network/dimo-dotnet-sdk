@@ -26,17 +26,13 @@ namespace Dimo.Client.Core.Services.VehicleSignalDecoding
             {
                 var response = await client.GetAsync($"/v1/device-config/vin/{vin}/urls", cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<DeviceConfigUrls>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<DeviceConfigUrls>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<DeviceConfigUrls>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<DeviceConfigUrls>(cancellationToken: cancellationToken);
 #endif
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
 
@@ -46,17 +42,13 @@ namespace Dimo.Client.Core.Services.VehicleSignalDecoding
             {
                 var response = await client.GetAsync($"/v1/device-config/pids/{templateName}", cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<PidConfig>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<PidConfig>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<PidConfig>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<PidConfig>(cancellationToken: cancellationToken);
 #endif
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
 
@@ -66,17 +58,13 @@ namespace Dimo.Client.Core.Services.VehicleSignalDecoding
             {
                 var response = await client.GetAsync($"/v1/device-config/pids/{templateName}", cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<DeviceSetting>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<DeviceSetting>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<DeviceSetting>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<DeviceSetting>(cancellationToken: cancellationToken);
 #endif
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
 
@@ -86,16 +74,12 @@ namespace Dimo.Client.Core.Services.VehicleSignalDecoding
             {
                 var response = await client.GetAsync($"/v1/device-config/dbc/{templateName}", cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    return await response.Content.ReadAsStringAsync();
+                return await response.Content.ReadAsStringAsync();
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadAsStringAsync(cancellationToken: cancellationToken);
+                return await response.Content.ReadAsStringAsync(cancellationToken: cancellationToken);
 #endif
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
 
@@ -105,17 +89,13 @@ namespace Dimo.Client.Core.Services.VehicleSignalDecoding
             {
                 var response = await client.GetAsync($"/v1/device-config/eth-addr/{address}/status", cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<DeviceStatus>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<DeviceStatus>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<DeviceStatus>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<DeviceStatus>(cancellationToken: cancellationToken);
 #endif
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
 
@@ -135,12 +115,7 @@ namespace Dimo.Client.Core.Services.VehicleSignalDecoding
                 var content = new StringContent(JsonSerializer.Serialize(newDeviceStatus), Encoding.UTF8, "application/json");
                 var response = await client.PatchAsync($"/v1/device-config/eth-addr/{address}/status", content,  cancellationToken);
 #endif
-                if (response.IsSuccessStatusCode)
-                {
-                    return;
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
+                response.EnsureSuccessStatusCode();
             }
         }
 
@@ -150,12 +125,7 @@ namespace Dimo.Client.Core.Services.VehicleSignalDecoding
             {
                 var response = await client.GetAsync($"/v1/device-config/eth-addr/{address}/status", cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    return;
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
+                response.EnsureSuccessStatusCode();
             }
         }
 
@@ -165,12 +135,7 @@ namespace Dimo.Client.Core.Services.VehicleSignalDecoding
             {
                 var response = await client.GetAsync($"/v1/device-config/eth-addr/{address}/jobs/pending", cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    return;
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
+                response.EnsureSuccessStatusCode();
             }
         }
 
@@ -180,12 +145,7 @@ namespace Dimo.Client.Core.Services.VehicleSignalDecoding
             {
                 var response = await client.GetAsync($"/v1/device-config/eth-addr/{address}/jobs/{jobId}/{{status}}", cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    return;
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
+                response.EnsureSuccessStatusCode();
             }
         }
     }

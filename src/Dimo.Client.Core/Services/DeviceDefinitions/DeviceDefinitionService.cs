@@ -26,17 +26,13 @@ namespace Dimo.Client.Core.Services.DeviceDefinitions
             {
                 var response = await client.GetAsync($"/device-definitions?make={make}&model={model}&year={year}", cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<DeviceDefinition>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<DeviceDefinition>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<DeviceDefinition>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<DeviceDefinition>(cancellationToken: cancellationToken);
 #endif
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
 
@@ -46,17 +42,13 @@ namespace Dimo.Client.Core.Services.DeviceDefinitions
             {
                 var response = await client.GetAsync($"/device-definitions/{deviceDefinitionId}", cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<DeviceDefinition>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<DeviceDefinition>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<DeviceDefinition>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<DeviceDefinition>(cancellationToken: cancellationToken);
 #endif
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
 
@@ -66,17 +58,13 @@ namespace Dimo.Client.Core.Services.DeviceDefinitions
             {
                 var response = await client.GetAsync($"/device-makes", cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<IReadOnlyCollection<DeviceMake>>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<IReadOnlyCollection<DeviceMake>>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<IReadOnlyCollection<DeviceMake>>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<IReadOnlyCollection<DeviceMake>>(cancellationToken: cancellationToken);
 #endif
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
 
@@ -86,17 +74,13 @@ namespace Dimo.Client.Core.Services.DeviceDefinitions
             {
                 var response = await client.GetAsync($"/device-types/{deviceTypeId}", cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<DeviceType>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<DeviceType>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<DeviceType>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<DeviceType>(cancellationToken: cancellationToken);
 #endif
-                }
-
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
     }

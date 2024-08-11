@@ -3,7 +3,6 @@ using GraphQL.Client.Serializer.Newtonsoft;
 #elif NET6_0_OR_GREATER
 using GraphQL.Client.Serializer.SystemTextJson;
 #endif
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;

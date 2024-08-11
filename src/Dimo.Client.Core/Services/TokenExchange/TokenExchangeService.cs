@@ -44,17 +44,14 @@ namespace Dimo.Client.Core.Services.TokenExchange
 #endif
                 var response = await client.PostAsync($"/v1/tokens/exchange", content, cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<PrivilegeToken>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<PrivilegeToken>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<PrivilegeToken>(cancellationToken: cancellationToken); 
+                return await response.Content.ReadFromJsonAsync<PrivilegeToken>(cancellationToken: cancellationToken); 
 #endif
-                }
                 
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
     }

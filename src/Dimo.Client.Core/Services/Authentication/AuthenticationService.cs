@@ -42,17 +42,13 @@ namespace Dimo.Client.Core.Services.Authentication
                 
                 var response = await client.PostAsync($"/auth/web3/generate_challenge", content, cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<SignatureChallenge>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<SignatureChallenge>(json);
 #elif NET6_0_OR_GREATER
-                    return await response.Content.ReadFromJsonAsync<SignatureChallenge>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<SignatureChallenge>(cancellationToken: cancellationToken);
 #endif
-                }
-                
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
 
@@ -81,18 +77,13 @@ namespace Dimo.Client.Core.Services.Authentication
 
                 var response = await client.PostAsync($"/auth/web3/submit_challenge", content, cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
+                response.EnsureSuccessStatusCode();
 #if NETSTANDARD
-                    var json = await response.Content.ReadAsStringAsync();
-                    var auth = JsonConvert.DeserializeObject<Auth>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<Auth>(json);
 #elif NET6_0_OR_GREATER
-                    var auth = await response.Content.ReadFromJsonAsync<Auth>(cancellationToken: cancellationToken);
+                return await response.Content.ReadFromJsonAsync<Auth>(cancellationToken: cancellationToken);
 #endif
-                    return auth;
-                }
-                
-                throw new HttpRequestException(response.ReasonPhrase);
             }
         }
 

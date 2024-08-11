@@ -2,6 +2,7 @@
 
 using Dimo.Client;
 using Dimo.Client.Core;
+using Nethereum.Contracts.Standards.ERC20.TokenList;
 
 var dimoClient = new DimoClientBuilder()
     .WithEnvironment(DimoEnvironment.Production)
@@ -12,6 +13,25 @@ var dimoClient = new DimoClientBuilder()
 
 // or you can add all services at once
 //var dimoClient = new DimoClientBuilder().AddAllServices().Build();
+
+
+/*var challenge = await dimoClient.AuthenticationService.GenerateChallengeAsync(
+    clientId: "<your client id>",
+    domain: "<your domain>",
+    address: "<your address>",
+    );
+
+var signedChallenge = await dimoClient.AuthenticationService.SignChallengeAsync(
+    message: challenge.Challenge,
+    privateKey: "<your private key>"
+    );
+
+var auth = await dimoClient.AuthenticationService.SubmitChallengeAsync(
+    clientId: "<your client id>",
+    domain: "<your domain>",
+    state: challenge.State,
+    signature: signedChallenge
+    );*/
 
 // uncomment the following code to get data from the rest services.
 /*var tokenId = 12345; // token id from the device you want to get data from
