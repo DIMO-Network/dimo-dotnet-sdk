@@ -6,6 +6,7 @@ using GraphQL.Client.Serializer.SystemTextJson;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Dimo.Client.Exceptions;
@@ -19,14 +20,14 @@ namespace Dimo.Client.Services.Telemetry
     {
         private readonly GraphQLHttpClient _client;
 
-        public TelemetryService(DimoEnvironment environment)
+        public TelemetryService(IHttpClientFactory factory)
         {
+            var httpClient = factory.CreateClient(ApiNames.Telemetry);
 #if NETSTANDARD
-            _client = new GraphQLHttpClient(Constants.ApiUrls[environment][ApiNames.Telemetry], new NewtonsoftJsonSerializer());
+            _client = new GraphQLHttpClient(httpClient.BaseAddress, new NewtonsoftJsonSerializer(), httpClient);
 #elif NET6_0_OR_GREATER
-            _client = new GraphQLHttpClient(Constants.ApiUrls[environment][ApiNames.Telemetry], new SystemTextJsonSerializer());
+            _client = new GraphQLHttpClient(httpClient.BaseAddress!, new SystemTextJsonSerializer(), httpClient);
 #endif
-            _client.HttpClient.DefaultRequestHeaders.Add("User-Agent", Constants.UserAgent);
         }
         
         public Task<IReadOnlyCollection<Signal>> GetLatestSignalsAsync(long tokenId, string authToken, CancellationToken cancellationToken = default)

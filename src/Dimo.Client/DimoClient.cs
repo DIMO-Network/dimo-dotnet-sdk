@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Dimo.Client.Extensions;
 using Dimo.Client.Services.Authentication;
 using Dimo.Client.Services.DeviceData;
 using Dimo.Client.Services.DeviceDefinitions;
@@ -45,9 +46,8 @@ namespace Dimo.Client
         public IValuationsService ValuationsService => _provider.GetRequiredService<IValuationsService>();
         public IIdentityService IdentityService => _provider.GetRequiredService<IIdentityService>();
         public ITelemetryService TelemetryService => _provider.GetRequiredService<ITelemetryService>();
-        
-        
         public IVehicleSignalDecodingService VehicleSignalDecodingService => _provider.GetRequiredService<IVehicleSignalDecodingService>();
+        
 
         private readonly ServiceProvider _provider;
 
@@ -59,6 +59,15 @@ namespace Dimo.Client
             bool streamr)
         {
             var collection = new ServiceCollection();
+            
+            foreach (var apis in Constants.ApiUrls[environment])
+            {
+                collection.AddHttpClient(apis.Key, client =>
+                {
+                    client.BaseAddress = new Uri(apis.Value);
+                    client.DefaultRequestHeaders.Add("User-Agent", Constants.UserAgent);
+                });
+            }
             
             if (coreServices)
             {
@@ -80,14 +89,12 @@ namespace Dimo.Client
         
         public void Dispose()
         {
-            // TODO release managed resources here
             if (_provider == null) return;
             _provider.Dispose();
         }
 
         public async ValueTask DisposeAsync()
         {
-            // TODO release managed resources here
             if (_provider == null) return;
             await _provider.DisposeAsync();
         }

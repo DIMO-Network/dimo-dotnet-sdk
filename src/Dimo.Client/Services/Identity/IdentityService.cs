@@ -3,8 +3,10 @@ using GraphQL.Client.Serializer.Newtonsoft;
 #elif NET6_0_OR_GREATER
 using GraphQL.Client.Serializer.SystemTextJson;
 #endif
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Dimo.Client.Exceptions;
@@ -18,13 +20,15 @@ namespace Dimo.Client.Services.Identity
     {
         private readonly GraphQLHttpClient _client;
 
-        public IdentityService(DimoEnvironment environment)
+        public IdentityService(IHttpClientFactory factory)
         {
+            var httpClient = factory.CreateClient(ApiNames.Identity);
 #if NETSTANDARD
-            _client = new GraphQLHttpClient(Constants.ApiUrls[environment][ApiNames.Identity], new NewtonsoftJsonSerializer());
+            _client = new GraphQLHttpClient(httpClient.BaseAddress, new NewtonsoftJsonSerializer(), httpClient);
 #elif NET6_0_OR_GREATER
-            _client = new GraphQLHttpClient(Constants.ApiUrls[environment][ApiNames.Identity], new SystemTextJsonSerializer());
+            _client = new GraphQLHttpClient(httpClient.BaseAddress!, new SystemTextJsonSerializer(), httpClient);
 #endif
+            
             _client.HttpClient.DefaultRequestHeaders.Add("User-Agent", Constants.UserAgent);
         }
         

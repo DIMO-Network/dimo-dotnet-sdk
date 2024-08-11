@@ -52,6 +52,10 @@ namespace Dimo.Client
             return this;
         }
         
+        /// <summary>
+        /// This method adds support for all REST DIMO APIs.
+        /// </summary>
+        /// <returns><see cref="DimoClientBuilder"/></returns>
         public DimoClientBuilder AddCoreServices()
         {
             CoreServices = true;
@@ -76,9 +80,10 @@ namespace Dimo.Client
             return this;
         }
 
-        public DimoClientBuilder WithCredentials(Func<ClientCredentials, ClientCredentials> config)
+        public DimoClientBuilder WithCredentials(Action<ClientCredentials> config)
         {
-            Credentials = config(new ClientCredentials());
+            Credentials = new ClientCredentials();
+            config(Credentials);
             return this;
         }
         

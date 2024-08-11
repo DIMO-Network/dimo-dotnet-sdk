@@ -1,10 +1,6 @@
 using System;
+using Dimo.Client.Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using Dimo.Client.Streamr;
-using Microsoft.Extensions.Options;
-using GraphEnvironment = Dimo.Client.Graphql.DimoEnvironment;
-using DimoEnvironment = Dimo.Client.DimoEnvironment;
-using StreamrEnvironment = Dimo.Client.Streamr.DimoEnvironment;
 
 
 namespace Dimo.Client
@@ -22,7 +18,17 @@ namespace Dimo.Client
                 services.AddSingleton(clientOptions.Credentials);
             }
             
+            foreach (var apis in Constants.ApiUrls[clientOptions.Environment])
+            {
+                services.AddHttpClient(apis.Key, client =>
+                {
+                    client.BaseAddress = new Uri(apis.Value);
+                    client.DefaultRequestHeaders.Add("User-Agent", Constants.UserAgent);
+                });
+            }
+            
             services.AddCoreServices(clientOptions.Environment);
+            services.AddGraphql(clientOptions.Environment);
             
             return services;
         }

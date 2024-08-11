@@ -1,5 +1,8 @@
 using System;
+#if NETSTANDARD
+#elif NET6_0_OR_GREATER
 using System.Text.Json.Serialization;
+#endif
 
 namespace Dimo.Client.Models
 {

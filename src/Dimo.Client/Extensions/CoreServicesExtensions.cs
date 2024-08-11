@@ -11,9 +11,9 @@ using Dimo.Client.Services.Valuations;
 using Dimo.Client.Services.VehicleSignalDecoding;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Dimo.Client
+namespace Dimo.Client.Extensions
 {
-    public static class CoreServicesExtensions
+    internal static class CoreServicesExtensions
     {
         public static IServiceCollection AddCoreServices(this IServiceCollection services, DimoEnvironment environment)
         {
@@ -29,15 +29,6 @@ namespace Dimo.Client
             services.AddScoped<IVehicleSignalDecodingService, VehicleSignalDecodingService>();
             
             services.AddSingleton<RpcSigner>(Constants.RpcSigners[environment]);
-            
-            foreach (var apis in Constants.ApiUrls[environment])
-            {
-                services.AddHttpClient(apis.Key, client =>
-                {
-                    client.BaseAddress = new Uri(apis.Value);
-                    client.DefaultRequestHeaders.Add("User-Agent", Constants.UserAgent);
-                });
-            }
             
             return services;
         }

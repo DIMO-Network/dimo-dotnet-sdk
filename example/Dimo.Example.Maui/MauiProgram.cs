@@ -20,7 +20,7 @@ public static class MauiProgram
         {
             options.Environment = DimoEnvironment.Production;
         });
-
+        
 #if DEBUG
         builder.Logging.AddDebug();
 #endif

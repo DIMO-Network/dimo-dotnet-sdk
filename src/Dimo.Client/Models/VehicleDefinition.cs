@@ -23,12 +23,6 @@ namespace Dimo.Client.Models
         public Definition Definition { get; set; }
     }
 
-    public class AftermarketDevice
-    {
-        public long TokenId { get; set; }
-        public string Address { get; set; }
-    }
-
     public class Definition
     {
         public string Make { get; set; }
