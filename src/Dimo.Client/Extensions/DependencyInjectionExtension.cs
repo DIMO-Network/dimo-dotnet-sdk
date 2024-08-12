@@ -25,11 +25,14 @@ namespace Dimo.Client.Extensions
                 });
             }
             
-            services.AddDimoRestServices(clientOptions.Environment);
+            services.AddAuthServices(clientOptions.Environment);
+            services.AddDimoRestServices();
             services.AddDimoGraphQlServices();
             
             return services;
         }
+        
+        
     }
 
     public class DimoClientOptions

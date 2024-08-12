@@ -10,6 +10,7 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using Dimo.Client.Models;
+using Microsoft.Extensions.Options;
 using Nethereum.Signer;
 
 namespace Dimo.Client.Services.Authentication
@@ -19,10 +20,10 @@ namespace Dimo.Client.Services.Authentication
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly ClientCredentials _credentials;
         
-        public AuthenticationService(IHttpClientFactory httpClientFactory, ClientCredentials credentials)
+        public AuthenticationService(IHttpClientFactory httpClientFactory, ClientCredentials credentials, IOptions<ClientCredentials> options)
         {
             _httpClientFactory = httpClientFactory;
-            _credentials = credentials;
+            _credentials = credentials ?? options.Value;
         }
         
         public async Task<SignatureChallenge> GenerateChallengeAsync(string clientId, string domain, string address,

@@ -10,8 +10,7 @@ namespace Dimo.Client
     {
         internal DimoEnvironment Environment { get; private set; }
         internal ClientCredentials Credentials { get; private set; }
-        
-        internal bool CoreServices { get; private set; }
+        internal bool RestServices { get; private set; }
         internal bool GraphqlServices { get; private set; }
         internal bool Streamr { get; private set; }
         
@@ -58,14 +57,14 @@ namespace Dimo.Client
         /// <returns><see cref="DimoClientBuilder"/></returns>
         public DimoClientBuilder AddRestServices()
         {
-            CoreServices = true;
+            RestServices = true;
             return this;
         }
         
         /// <summary>
         /// This method adds support for all DIMO APIs  to the client.
         /// </summary>
-        /// <returns><see cref="DimoClientBuilder"/></returns>
+        /// <returns>Returns the instance of <see cref="DimoClientBuilder"/></returns>
         public DimoClientBuilder AddAllServices()
         {
             return
@@ -90,10 +89,10 @@ namespace Dimo.Client
         /// <summary>
         /// Builds the DimoClient instance with the specified configuration.
         /// </summary>
-        /// <returns><see cref="DimoClient"/></returns>
+        /// <returns>Returns an instance of <see cref="IDimoClient"/></returns>
         public IDimoClient Build()
         {
-            return new DimoClient(Environment, Credentials, CoreServices, GraphqlServices, Streamr);
+            return new DimoClient(Environment, Credentials, RestServices, GraphqlServices, Streamr);
         }
     }
 }

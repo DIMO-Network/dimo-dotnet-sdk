@@ -33,9 +33,7 @@ namespace Dimo.Client.Extensions
             services.AddDimoGraphQlServices();
             
             // This to add Auth related services cause some graphql services require authentication 
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
-            services.AddScoped<ITokenExchangeService, TokenExchangeService>();
-            services.AddSingleton<RpcSigner>(Constants.RpcSigners[clientOptions.Environment]);
+            services.AddAuthServices(clientOptions.Environment);
             
             return services;
         }

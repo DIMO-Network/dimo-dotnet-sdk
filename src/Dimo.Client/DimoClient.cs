@@ -54,7 +54,7 @@ namespace Dimo.Client
         public DimoClient(
             DimoEnvironment environment,
             ClientCredentials credentials,
-            bool coreServices, 
+            bool restServices, 
             bool graphql, 
             bool streamr)
         {
@@ -69,9 +69,11 @@ namespace Dimo.Client
                 });
             }
             
-            if (coreServices)
+            collection.AddAuthServices(environment);
+            
+            if (restServices)
             {
-                collection.AddDimoRestServices(environment);
+                collection.AddDimoRestServices();
             }
             
             if (graphql)

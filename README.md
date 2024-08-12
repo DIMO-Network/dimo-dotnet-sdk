@@ -193,7 +193,10 @@ var auth = await dimoClient.AuthenticationService.GetTokenAsync();
 Console.WriteLine(auth.AccessToken);
 ```
 ___
-**_NOTE:_** The `GetTokenAsync` method in the `AuthenticationService` will expect you to set `ClientCredentials` objects on build configuration, if not set will throw an exception.
+**_NOTE:_** 
+- The `GetTokenAsync` method in the `AuthenticationService` will expect you to set `ClientCredentials` objects on build configuration.
+- When using dependency injection, you can set the `ClientCredentials` object in the `AddDimoClient` method or use Options Pattern to add it configuring an `IOptions<ClientCrendentials>`.
+- If you call this method and neither is set it will throw an exception
 ___
 
 #### Device Data API

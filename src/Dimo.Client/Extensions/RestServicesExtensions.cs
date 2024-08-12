@@ -15,10 +15,8 @@ namespace Dimo.Client.Extensions
 {
     public static class RestServicesExtensions
     {
-        internal static IServiceCollection AddDimoRestServices(this IServiceCollection services, DimoEnvironment environment)
+        internal static IServiceCollection AddDimoRestServices(this IServiceCollection services)
         {
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
-            services.AddScoped<ITokenExchangeService, TokenExchangeService>();
             services.AddScoped<IDeviceDataService, DeviceDataService>();
             services.AddScoped<IDeviceDefinitionsService, DeviceDefinitionService>();
             services.AddScoped<IDevicesService, DevicesService>();
@@ -27,7 +25,13 @@ namespace Dimo.Client.Extensions
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IValuationsService, ValuationsService>();
             services.AddScoped<IVehicleSignalDecodingService, VehicleSignalDecodingService>();
-            
+            return services;
+        }
+        
+        internal static IServiceCollection AddAuthServices(this IServiceCollection services, DimoEnvironment environment)
+        {
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<ITokenExchangeService, TokenExchangeService>();
             services.AddSingleton<RpcSigner>(Constants.RpcSigners[environment]);
             
             return services;
@@ -47,7 +51,8 @@ namespace Dimo.Client.Extensions
                 });
             }
             
-            services.AddDimoRestServices(clientOptions.Environment);
+            services.AddAuthServices(clientOptions.Environment);
+            services.AddDimoRestServices();
             return services;
         }
         
