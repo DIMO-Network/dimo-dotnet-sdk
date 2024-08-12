@@ -41,7 +41,7 @@ using Dimo.Client;
 
 var dimoClient = new DimoClientBuilder()
     .WithEnvironment(DimoEnvironment.Production)
-    .AddCoreServices()
+    .AddRestServices()
     .AddGraphQLServices()
     .AddStreamr()
     .Build(); 
@@ -84,7 +84,7 @@ ___
 
 #### REST Services
 
-The core services provide the following functionality:
+The rest services provide the following functionality:
 
 - Authentication
 - Device Data
