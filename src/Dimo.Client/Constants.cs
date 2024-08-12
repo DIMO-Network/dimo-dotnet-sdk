@@ -176,7 +176,7 @@ namespace Dimo.Client
                 DimoEnvironment.Development, 
                 new RpcSigner
                 {
-                    NftAddress = "0xbA5738a18d83D41847dfFbDC6101d37C69c9B0cF",
+                    NftAddress = "0x45fbCD3ef7361d156e8b16F5538AE36DEdf61Da8",
                     RpcProvider = "https://eth.llamarpc.com"
                 }
             },

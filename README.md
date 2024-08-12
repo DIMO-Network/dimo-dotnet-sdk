@@ -220,7 +220,12 @@ var auth = await dimoClient.AuthenticationService.GetTokenAsync(
 var privilegeToken = await dimoClient.TokenExchangeService.GetPrivilegeTokenAsync(
     accessToken: auth.AccessToken,
     tokenId: tokenId,
-    privileges: [1, 2, 3, 4]); // The privileges you want to get for the device
+    privileges: [ 
+        PrivilegeSharing.AllTimeNoLocationData,
+        PrivilegeSharing.Commands, 
+        PrivilegeSharing.CurrentLocation, 
+        PrivilegeSharing.AllTimeLocation 
+    ]); // The privileges you want to get for the device
 
 var vehicleStatus = await dimoClient.DeviceDataService.GetVehicleStatusAsync(tokenId, privilegeToken.Token);
 

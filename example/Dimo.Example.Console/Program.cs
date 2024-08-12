@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using Dimo.Client;
+using Dimo.Client.Models;
 
 var dimoClient = new DimoClientBuilder()
     .WithEnvironment(DimoEnvironment.Production)
@@ -20,7 +21,8 @@ var dimoClient = new DimoClientBuilder()
 //var dimoClient = new DimoClientBuilder().AddAllServices().Build();
 
 
-/*var challenge = await dimoClient.AuthenticationService.GenerateChallengeAsync(
+/*
+var challenge = await dimoClient.AuthenticationService.GenerateChallengeAsync(
     clientId: "<your client id>",
     domain: "<your domain>",
     address: "<your address>",
@@ -51,7 +53,12 @@ var auth = await dimoClient.AuthenticationService.GetTokenAsync(
 var privilegeToken = await dimoClient.TokenExchangeService.GetPrivilegeTokenAsync(
     accessToken: auth.AccessToken,
     tokenId: tokenId,
-    privileges: [1, 2, 3, 4]);
+    privileges: [ 
+        PrivilegeSharing.AllTimeNoLocationData,
+        PrivilegeSharing.Commands, 
+        PrivilegeSharing.CurrentLocation, 
+        PrivilegeSharing.AllTimeLocation 
+    ]);
 
 var vehicleStatus = await dimoClient.DeviceDataService.GetVehicleStatusAsync(tokenId, privilegeToken.Token);
 

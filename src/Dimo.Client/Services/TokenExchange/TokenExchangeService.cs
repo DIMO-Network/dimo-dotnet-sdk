@@ -23,7 +23,7 @@ namespace Dimo.Client.Services.TokenExchange
             _rpcSigner = rpcSigner;
         }
 
-        public async Task<PrivilegeToken> GetPrivilegeTokenAsync(string accessToken, long tokenId, int[] privileges, CancellationToken cancellationToken = default)
+        public async Task<PrivilegeToken> GetPrivilegeTokenAsync(string accessToken, long tokenId, PrivilegeSharing[] privileges, CancellationToken cancellationToken = default)
         {
             using (var client = _httpClientFactory.CreateClient(ApiNames.TokenExchange))
             {

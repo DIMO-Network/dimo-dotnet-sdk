@@ -20,7 +20,10 @@ namespace Dimo.Client.Services.Authentication
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly ClientCredentials _credentials;
         
-        public AuthenticationService(IHttpClientFactory httpClientFactory, ClientCredentials credentials, IOptions<ClientCredentials> options)
+        public AuthenticationService(
+            IHttpClientFactory httpClientFactory, 
+            ClientCredentials credentials, 
+            IOptions<ClientCredentials> options)
         {
             _httpClientFactory = httpClientFactory;
             _credentials = credentials ?? options.Value;
