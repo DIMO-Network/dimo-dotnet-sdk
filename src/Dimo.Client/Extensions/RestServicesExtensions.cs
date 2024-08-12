@@ -13,15 +13,15 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Dimo.Client.Extensions
 {
-    internal static class CoreServicesExtensions
+    public static class RestServicesExtensions
     {
-        public static IServiceCollection AddCoreServices(this IServiceCollection services, DimoEnvironment environment)
+        internal static IServiceCollection AddDimoRestServices(this IServiceCollection services, DimoEnvironment environment)
         {
             services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<ITokenExchangeService, TokenExchangeService>();
             services.AddScoped<IDeviceDataService, DeviceDataService>();
             services.AddScoped<IDeviceDefinitionsService, DeviceDefinitionService>();
             services.AddScoped<IDevicesService, DevicesService>();
-            services.AddScoped<ITokenExchangeService, TokenExchangeService>();
             services.AddScoped<IEventsService, EventsService>();
             services.AddScoped<ITripsService, TripsService>();
             services.AddScoped<IUsersService, UsersService>();
@@ -33,11 +33,23 @@ namespace Dimo.Client.Extensions
             return services;
         }
         
-        public static IServiceCollection AddCoreServices(this IServiceCollection services, DimoEnvironment environment, Action<ClientCredentials> credentials)
+        public static IServiceCollection AddDimoRestServices(this IServiceCollection services, Action<DimoClientOptions> config)
         {
-            services.AddCoreServices(environment);
+            var clientOptions = new DimoClientOptions();
+            config(clientOptions);
             
+            foreach (var apis in Constants.ApiUrls[clientOptions.Environment])
+            {
+                services.AddHttpClient(apis.Key, client =>
+                {
+                    client.BaseAddress = new Uri(apis.Value);
+                    client.DefaultRequestHeaders.Add("User-Agent", Constants.UserAgent);
+                });
+            }
+            
+            services.AddDimoRestServices(clientOptions.Environment);
             return services;
         }
+        
     }
 }

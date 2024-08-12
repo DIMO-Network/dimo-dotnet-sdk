@@ -1,9 +1,7 @@
 using System;
-using Dimo.Client.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
-
-namespace Dimo.Client
+namespace Dimo.Client.Extensions
 {
     public static class DependencyInjectionExtension
     {
@@ -27,8 +25,8 @@ namespace Dimo.Client
                 });
             }
             
-            services.AddCoreServices(clientOptions.Environment);
-            services.AddGraphql(clientOptions.Environment);
+            services.AddDimoRestServices(clientOptions.Environment);
+            services.AddDimoGraphQlServices();
             
             return services;
         }

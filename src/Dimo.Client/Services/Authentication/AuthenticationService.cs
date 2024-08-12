@@ -101,7 +101,7 @@ namespace Dimo.Client.Services.Authentication
         {
             if (_credentials == null)
             {
-                throw new ArgumentNullException(nameof(_credentials), "Credentials must be provided.");
+                throw new ArgumentNullException(nameof(_credentials), "Client credentials are not set. Have you set them in the DimoClientBuilder?");
             }
             
             var challenge = await GenerateChallengeAsync(_credentials.ClientId, _credentials.Domain, _credentials.Address, cancellationToken);

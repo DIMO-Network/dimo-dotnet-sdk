@@ -122,14 +122,14 @@ In order to authenticate and access private API data, you will need to [authenti
 ___
 **_NOTE:_** The signer wallet here is recommended to be different from the spender or holder wallet for your [DIMO Developer License](https://github.com/DIMO-Network/developer-license-donotus).
 ___
-There two ways to authenticate with the DIMO Auth Server based on the steps listed in [Wallet-based Authentication Flow](https://docs.Dimo.zone/developer-platform/getting-started/authentication/wallet-based-authentication-flow):
+There three ways to authenticate with the DIMO Auth Server based on the steps listed in [Wallet-based Authentication Flow](https://docs.Dimo.zone/developer-platform/getting-started/authentication/wallet-based-authentication-flow):
 
 1. Using `GenerateChallengeAsync`, `SignChallengeAsync`, and `SubmitChallengeAsync` methods.
 
 ```csharp
 using Dimo.Client;
 
-var dimoClient = new DimoClientBuilder().AddAllServices().
+var dimoClient = new DimoClientBuilder().AddAllServices()
     .WithEnvironment(DimoEnvironment.Production)
     .Build();
     
@@ -157,7 +157,7 @@ var auth = await dimoClient.AuthenticationService.SubmitChallengeAsync(
 ```csharp
 using Dimo.Client;
 
-var dimoClient = new DimoClientBuilder().AddAllServices().
+var dimoClient = new DimoClientBuilder().AddAllServices()
     .WithEnvironment(DimoEnvironment.Production)
     .Build();
     
@@ -170,6 +170,31 @@ var dimoClient = new DimoClientBuilder().AddAllServices().
     
 Console.WriteLine(auth.AccessToken);
 ```
+
+3. Using the `GetTokenAsync` method in the `AuthenticationService` class with a `ClientCredentials` object.
+
+```csharp
+using Dimo.Client;
+
+var dimoClient = new DimoClientBuilder()
+    .AddAllServices()
+    .WithEnvironment(DimoEnvironment.Production)
+    .WithCredentials(new ClientCredentials
+    {
+        Address = "<your address>",
+        ClientId = "<your client id>",
+        Domain = "<your domain>",
+        PrivateKey = "<your private key>"
+    })
+    .Build();
+
+var auth = await dimoClient.AuthenticationService.GetTokenAsync();
+
+Console.WriteLine(auth.AccessToken);
+```
+___
+**_NOTE:_** The `GetTokenAsync` method in the `AuthenticationService` will expect you to set `ClientCredentials` objects on build configuration, if not set will throw an exception.
+___
 
 #### Device Data API
 

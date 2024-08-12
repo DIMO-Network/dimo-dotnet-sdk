@@ -3,7 +3,6 @@ using GraphQL.Client.Serializer.Newtonsoft;
 #elif NET6_0_OR_GREATER
 using GraphQL.Client.Serializer.SystemTextJson;
 #endif
-using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net.Http;
@@ -28,8 +27,6 @@ namespace Dimo.Client.Services.Identity
 #elif NET6_0_OR_GREATER
             _client = new GraphQLHttpClient(httpClient.BaseAddress!, new SystemTextJsonSerializer(), httpClient);
 #endif
-            
-            _client.HttpClient.DefaultRequestHeaders.Add("User-Agent", Constants.UserAgent);
         }
         
         public async Task<T> ExecuteQueryAsync<T>([StringSyntax("GraphQL")]string query, object variables, CancellationToken cancellationToken = default)
