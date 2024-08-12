@@ -56,7 +56,7 @@ namespace Dimo.Client
         /// This method adds support for all REST DIMO APIs.
         /// </summary>
         /// <returns><see cref="DimoClientBuilder"/></returns>
-        public DimoClientBuilder AddCoreServices()
+        public DimoClientBuilder AddRestServices()
         {
             CoreServices = true;
             return this;
@@ -69,7 +69,7 @@ namespace Dimo.Client
         public DimoClientBuilder AddAllServices()
         {
             return
-                AddCoreServices()
+                AddRestServices()
                 .AddGraphQLServices()
                 .AddStreamr();
         }

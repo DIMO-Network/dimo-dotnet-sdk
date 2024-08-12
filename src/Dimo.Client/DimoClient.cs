@@ -71,12 +71,12 @@ namespace Dimo.Client
             
             if (coreServices)
             {
-                collection.AddCoreServices(environment);
+                collection.AddDimoRestServices(environment);
             }
             
             if (graphql)
             {
-                collection.AddGraphql(environment);
+                collection.AddDimoGraphQlServices();
             }
             
             if (credentials != null)

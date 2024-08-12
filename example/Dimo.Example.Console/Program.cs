@@ -1,7 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using Dimo.Client;
-using Nethereum.Contracts.Standards.ERC20.TokenList;
 
 var dimoClient = new DimoClientBuilder()
     .WithEnvironment(DimoEnvironment.Production)
@@ -12,7 +11,7 @@ var dimoClient = new DimoClientBuilder()
     //     Domain = "<your domain>",
     //     PrivateKey = "<your private key>"
     // })
-    .AddCoreServices()
+    .AddRestServices()
     .AddGraphQLServices()
     .AddStreamr()
     .Build();
