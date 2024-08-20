@@ -9,11 +9,9 @@
     <PackageVersion Include="Microsoft.Extensions.Http" Version="8.0.0" />
     <PackageVersion Include="Nethereum.Web3" Version="4.21.3" />
   </ItemGroup>
-  
   <ItemGroup Condition="'$(IsNetStandard)' != 'true'">
     <PackageVersion Include="GraphQL.Client.Serializer.SystemTextJson" Version="6.1.0" />
   </ItemGroup>
-  
   <ItemGroup Condition="'$(IsNetStandard)' == 'true'">
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageVersion Include="GraphQL.Client.Serializer.Newtonsoft" Version="6.1.0" />
