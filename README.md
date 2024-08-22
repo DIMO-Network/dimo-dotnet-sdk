@@ -41,7 +41,6 @@ var dimoClient = new DimoClientBuilder()
     .WithEnvironment(DimoEnvironment.Production)
     .AddRestServices()
     .AddGraphQLServices()
-    .AddStreamr()
     .Build(); 
 ```
 Or you can add all services at once.
@@ -126,7 +125,8 @@ There three ways to authenticate with the DIMO Auth Server based on the steps li
 ```csharp
 using Dimo.Client;
 
-var dimoClient = new DimoClientBuilder().AddAllServices()
+var dimoClient = new DimoClientBuilder()
+    .AddAllServices()
     .WithEnvironment(DimoEnvironment.Production)
     .Build();
     
@@ -154,7 +154,8 @@ var auth = await dimoClient.AuthenticationService.SubmitChallengeAsync(
 ```csharp
 using Dimo.Client;
 
-var dimoClient = new DimoClientBuilder().AddAllServices()
+var dimoClient = new DimoClientBuilder()
+    .AddAllServices()
     .WithEnvironment(DimoEnvironment.Production)
     .Build();
     
@@ -201,7 +202,8 @@ ___
 ```csharp
 using Dimo.Client;
 
-var dimoClient = new DimoClientBuilder().AddAllServices().
+var dimoClient = new DimoClientBuilder()
+    .AddAllServices()
     .WithEnvironment(DimoEnvironment.Production)
     .Build();
 
@@ -238,7 +240,8 @@ The SDK accepts any type of valid custom GraphQL queries, but we've also include
 ```csharp
 using Dimo.Client;
 
-var dimoClient = new DimoClientBuilder().AddAllServices().
+var dimoClient = new DimoClientBuilder()
+    .AddAllServices()
     .WithEnvironment(DimoEnvironment.Production)
     .Build();
 
