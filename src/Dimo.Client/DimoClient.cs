@@ -48,7 +48,6 @@ namespace Dimo.Client
         public ITelemetryService TelemetryService => _provider.GetRequiredService<ITelemetryService>();
         public IVehicleSignalDecodingService VehicleSignalDecodingService => _provider.GetRequiredService<IVehicleSignalDecodingService>();
         
-
         private readonly ServiceProvider _provider;
 
         public DimoClient(

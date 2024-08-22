@@ -41,15 +41,6 @@ namespace Dimo.Client
             return this;
         }
         
-        /// <summary>
-        /// Add support for the Streamr API to the client.
-        /// </summary>
-        /// <returns><see cref="DimoClientBuilder"/></returns>
-        public DimoClientBuilder AddStreamr()
-        {
-            Streamr = true;
-            return this;
-        }
         
         /// <summary>
         /// This method adds support for all REST DIMO APIs.
@@ -69,8 +60,7 @@ namespace Dimo.Client
         {
             return
                 AddRestServices()
-                .AddGraphQLServices()
-                .AddStreamr();
+                .AddGraphQLServices();
         }
 
         public DimoClientBuilder WithCredentials(ClientCredentials credentials)

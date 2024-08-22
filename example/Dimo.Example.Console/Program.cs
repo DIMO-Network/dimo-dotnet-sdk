@@ -14,7 +14,6 @@ var dimoClient = new DimoClientBuilder()
     // })
     .AddRestServices()
     .AddGraphQLServices()
-    .AddStreamr()
     .Build();
 
 // or you can add all services at once
