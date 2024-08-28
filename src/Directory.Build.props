@@ -1,7 +1,6 @@
 <Project>
     <PropertyGroup>
         <TargetFrameworks>net8.0; net7.0; net6.0; netstandard2.0</TargetFrameworks>
-        <ContinuousIntegrationBuild Condition="'$(BUILD_BUILDID)' != ''">true</ContinuousIntegrationBuild>
     </PropertyGroup>
 
 </Project>

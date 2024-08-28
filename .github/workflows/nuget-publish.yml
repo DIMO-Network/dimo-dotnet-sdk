@@ -21,7 +21,7 @@ jobs:
           - name: 'Install dotnet'
             uses: actions/setup-dotnet@v1
             with:
-              dotnet-version: '8.x.x'
+              dotnet-version: '8.0.x'
 
           - name: 'Restore packages'
             run: dotnet restore ${{ env.PROJECT_PATH }}
@@ -30,7 +30,7 @@ jobs:
             run: dotnet build ${{ env.PROJECT_PATH }} --configuration Release --no-restore
 
           - name: 'Pack'
-            run: dotnet pack ${{ env.PROJECT_PATH }} --configuration Release --no-build --inclure-symbols --output ${{ env.OUTPUT_PATH }}
+            run: dotnet pack ${{ env.PROJECT_PATH }} --configuration Release --no-build --include-symbols --output ${{ env.OUTPUT_PATH }}
 
           - name: 'Publish'
             run: dotnet nuget push ${{ env.OUTPUT_PATH }}/*.nupkg -s ${{ env.NUGET_SOURCE_URL }} -k ${{ env.NUGET_API_KEY }}
