@@ -7,8 +7,8 @@ on:
 
 env:
   NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-  PROJECT_PATH: src/Dimo.Client/Dimo.Client.csproj
-  OUTPUT_PATH: ${{ github.workspace }}/output
+  PROJECT_PATH: src\Dimo.Client\Dimo.Client.csproj
+  OUTPUT_PATH: ${{ github.workspace }}\output
   NUGET_SOURCE_URL: https://api.nuget.org/v3/index.json
 
 jobs:
