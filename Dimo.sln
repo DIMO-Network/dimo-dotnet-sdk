@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dimo.Client", "src\Dimo.Client\Dimo.Client.csproj", "{1105BD33-A087-4CA5-9434-D6A276159871}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8349EA57-EF09-4D21-85FF-6C0E8B0AC19E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{180F8809-4DA5-4809-A370-CA5D67B5F3D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dimo.Client.Tests", "tests\Dimo.Client.Tests\Dimo.Client.Tests.csproj", "{FE4F259F-DA0D-4D9A-9034-B7D12D703EB0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "example", "example", "{46DDA0F7-BE75-4236-BDEB-63289BC20A12}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_SolutionItems", "_SolutionItems", "{2ABF3A8B-E16B-44E5-89C1-1718F51991C1}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+		README.md = README.md
+		src\Directory.Build.props = src\Directory.Build.props
+		src\Directory.Packages.props = src\Directory.Packages.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dimo.Example.Console", "example\Dimo.Example.Console\Dimo.Example.Console.csproj", "{B0646492-539C-445B-96EE-5967A6C1715F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dimo.Example.Maui", "example\Dimo.Example.Maui\Dimo.Example.Maui.csproj", "{DAB86384-C341-496B-86DF-F5BB23CA6A71}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1105BD33-A087-4CA5-9434-D6A276159871}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1105BD33-A087-4CA5-9434-D6A276159871}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1105BD33-A087-4CA5-9434-D6A276159871}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1105BD33-A087-4CA5-9434-D6A276159871}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE4F259F-DA0D-4D9A-9034-B7D12D703EB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE4F259F-DA0D-4D9A-9034-B7D12D703EB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE4F259F-DA0D-4D9A-9034-B7D12D703EB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE4F259F-DA0D-4D9A-9034-B7D12D703EB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0646492-539C-445B-96EE-5967A6C1715F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0646492-539C-445B-96EE-5967A6C1715F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0646492-539C-445B-96EE-5967A6C1715F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0646492-539C-445B-96EE-5967A6C1715F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAB86384-C341-496B-86DF-F5BB23CA6A71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAB86384-C341-496B-86DF-F5BB23CA6A71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAB86384-C341-496B-86DF-F5BB23CA6A71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAB86384-C341-496B-86DF-F5BB23CA6A71}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1105BD33-A087-4CA5-9434-D6A276159871} = {8349EA57-EF09-4D21-85FF-6C0E8B0AC19E}
+		{FE4F259F-DA0D-4D9A-9034-B7D12D703EB0} = {180F8809-4DA5-4809-A370-CA5D67B5F3D0}
+		{B0646492-539C-445B-96EE-5967A6C1715F} = {46DDA0F7-BE75-4236-BDEB-63289BC20A12}
+		{DAB86384-C341-496B-86DF-F5BB23CA6A71} = {46DDA0F7-BE75-4236-BDEB-63289BC20A12}
+	EndGlobalSection
+EndGlobal
