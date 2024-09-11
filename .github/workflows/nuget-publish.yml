@@ -1,8 +1,9 @@
 name: Publish package to NuGet
 
 on:
-  release:
-    types: [published]
+  push:
+    tags: 
+      - 'v*'
 
 env:
   NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
@@ -29,8 +30,12 @@ jobs:
           - name: 'Build'
             run: dotnet build ${{ env.PROJECT_PATH }} --configuration Release --no-restore
 
+          - name: 'Version'
+            id: version
+            uses: battila7/get-version-action@v2
+
           - name: 'Pack'
-            run: dotnet pack ${{ env.PROJECT_PATH }} --configuration Release --no-build --include-symbols --output ${{ env.OUTPUT_PATH }}
+            run: dotnet pack ${{ env.PROJECT_PATH }} --configuration Release --no-build --include-symbols -p:PackageVersion=${{ steps.version.outputs.version-without-v }} --output ${{ env.OUTPUT_PATH }}
 
           - name: 'Publish'
             run: dotnet nuget push ${{ env.OUTPUT_PATH }}/*.nupkg -s ${{ env.NUGET_SOURCE_URL }} -k ${{ env.NUGET_API_KEY }}
