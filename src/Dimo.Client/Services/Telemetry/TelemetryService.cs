@@ -30,10 +30,33 @@ namespace Dimo.Client.Services.Telemetry
 #endif
         }
         
+        public async Task<T> ExecuteQueryAsync<T>(
+            string authToken, 
+            [StringSyntax("GraphQL")]string query, 
+            object variables, 
+            string queryName = "",
+            CancellationToken cancellationToken = default)
+        {
+            var graphQlRequest = new GraphQLRequest
+            {
+                Query = query,
+                OperationName = queryName,
+                Variables = variables
+            };
+            _client.HttpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {authToken}");
+            
+            var response = await _client.SendQueryAsync<T>(graphQlRequest, cancellationToken);
+
+            if (response.Errors == null) return response.Data;
+            
+            var errors = response.Errors.Select(e => e.Message).ToArray();
+            throw new DimoGraphqlException("Something went wrong while executing query", errors);
+        }
+        
         public Task<IReadOnlyCollection<Signal>> GetLatestSignalsAsync(long tokenId, string authToken, CancellationToken cancellationToken = default)
         {
             const string query = @"
-                                 {
+                                 query GetLatestSignals($tokenId: Int!){
                                     signalsLatest(tokenID: $tokenId){
                                      powertrainTransmissionTravelledDistance {
                                          timestamp
@@ -60,25 +83,12 @@ namespace Dimo.Client.Services.Telemetry
                 tokenId
             };
             
-            return ExecuteQueryAsync<IReadOnlyCollection<Signal>>(query, variables, authToken, cancellationToken);
-        }
-
-        public async Task<T> ExecuteQueryAsync<T>([StringSyntax("GraphQL")]string query, object variables, string authToken,
-            CancellationToken cancellationToken = default)
-        {
-            var graphQlRequest = new GraphQLRequest
-            {
-                Query = query,
-                Variables = variables
-            };
-            _client.HttpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {authToken}");
-            
-            var response = await _client.SendQueryAsync<T>(graphQlRequest, cancellationToken);
-
-            if (response.Errors == null) return response.Data;
-            
-            var errors = response.Errors.Select(e => e.Message).ToArray();
-            throw new DimoGraphqlException("Something went wrong while executing query", errors);
+            return ExecuteQueryAsync<IReadOnlyCollection<Signal>>(
+                authToken, 
+                query, 
+                variables,
+                queryName: "GetLatestSignals",
+                cancellationToken: cancellationToken);
         }
     }
 }

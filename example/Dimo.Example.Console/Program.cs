@@ -64,6 +64,79 @@ var vehicleStatus = await dimoClient.DeviceDataService.GetVehicleStatusAsync(tok
 Console.WriteLine(vehicleStatus);*/
 
 // uncomment the following code to get data from the graphql services.
-// var vehicleCount = await dimoClient.IdentityApi.CountDimoVehiclesAsync();
-//
-// Console.WriteLine(vehicleCount);
+
+/*var response = await dimoClient.IdentityService.ListVehiclesDefinitionsPerAddressAsync("<your 0x address>", 10);
+
+foreach (var node in response.Vehicles.Nodes)
+{
+    Console.WriteLine("Aftermarket Device:");
+    Console.WriteLine($"TokenId: {node.AftermarketDevice.TokenId}, Address: {node.AftermarketDevice.Address}");
+    Console.WriteLine("Synthetic Device:");
+    Console.WriteLine($"TokenId: {node.SyntheticDevice.TokenId}, Address: {node.SyntheticDevice.Address}");
+    Console.WriteLine("Definition:");
+    Console.WriteLine($"Make: {node.Definition.Make}, Model: {node.Definition.Model}, Year: {node.Definition.Year}");
+}
+*/
+
+// graphql custom query
+// remember: Parameters should be in the correct gql type
+/*
+var query = @"
+query ListVehiclesDefinitionsPerDeviceDefinitionId($deviceDefinitionId: String!, $limit: Int!) {
+    vehicles(filterBy: {deviceDefinitionId: $deviceDefinitionId}, first: $limit) {
+      nodes {
+        aftermarketDevice {
+            tokenId
+            address
+          	mintedAt
+        }
+          syntheticDevice {
+            address
+            tokenId
+            mintedAt
+        }
+        definition {
+          make
+          model
+          year
+          id
+        }
+      }
+    }
+}
+";
+            
+var variables = new
+{
+    deviceDefinitionId = "cadillac_ct6_2019",
+    limit = 10
+};
+
+            
+var response = await dimoClient.IdentityService.ExecuteQueryAsync<VehicleSchemeResponse<VehicleDefinition>>(
+    query, 
+    variables, 
+    queryName: "ListVehiclesDefinitionsPerDeviceDefinitionId");
+
+foreach (var node in response.Vehicles.Nodes)
+{
+    Console.WriteLine("====================================");
+    if (node.AftermarketDevice != null)
+    {
+        Console.WriteLine("Aftermarket Device:");
+        Console.WriteLine($"TokenId: {node.AftermarketDevice.TokenId}, Address: {node.AftermarketDevice.Address}");
+    }
+
+    if (node.SyntheticDevice != null)
+    {
+        Console.WriteLine("Synthetic Device:");
+        Console.WriteLine($"TokenId: {node.SyntheticDevice.TokenId}, Address: {node.SyntheticDevice.Address}");
+    }
+    
+    if (node.Definition != null)
+    {
+        Console.WriteLine("Definition:");
+        Console.WriteLine($"Make: {node.Definition.Make}, Model: {node.Definition.Model}, Year: {node.Definition.Year}");
+    }
+}
+*/
