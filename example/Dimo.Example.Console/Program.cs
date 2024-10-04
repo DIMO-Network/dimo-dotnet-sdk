@@ -69,12 +69,24 @@ Console.WriteLine(vehicleStatus);*/
 
 foreach (var node in response.Vehicles.Nodes)
 {
-    Console.WriteLine("Aftermarket Device:");
-    Console.WriteLine($"TokenId: {node.AftermarketDevice.TokenId}, Address: {node.AftermarketDevice.Address}");
-    Console.WriteLine("Synthetic Device:");
-    Console.WriteLine($"TokenId: {node.SyntheticDevice.TokenId}, Address: {node.SyntheticDevice.Address}");
-    Console.WriteLine("Definition:");
-    Console.WriteLine($"Make: {node.Definition.Make}, Model: {node.Definition.Model}, Year: {node.Definition.Year}");
+    Console.WriteLine("====================================");
+   if (node.AftermarketDevice != null)
+   {
+       Console.WriteLine("Aftermarket Device:");
+       Console.WriteLine($"TokenId: {node.AftermarketDevice.TokenId}, Address: {node.AftermarketDevice.Address}");
+   }
+
+   if (node.SyntheticDevice != null)
+   {
+       Console.WriteLine("Synthetic Device:");
+       Console.WriteLine($"TokenId: {node.SyntheticDevice.TokenId}, Address: {node.SyntheticDevice.Address}");
+   }
+   
+   if (node.Definition != null)
+   {
+       Console.WriteLine("Definition:");
+       Console.WriteLine($"Make: {node.Definition.Make}, Model: {node.Definition.Model}, Year: {node.Definition.Year}");
+   }
 }
 */
 
