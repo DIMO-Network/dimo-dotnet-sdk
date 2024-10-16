@@ -82,7 +82,13 @@ namespace Dimo.Client
             
             if (credentials != null)
             {
-                collection.AddSingleton(credentials);
+                collection.Configure<ClientCredentials>(options =>
+                {
+                    options.ClientId = credentials.ClientId;
+                    options.PrivateKey = credentials.PrivateKey;
+                    options.Domain = credentials.Domain;
+                    options.Address = credentials.Address;
+                });
             }
             
             _provider = collection.BuildServiceProvider();

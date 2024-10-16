@@ -22,11 +22,10 @@ namespace Dimo.Client.Services.Authentication
         
         public AuthenticationService(
             IHttpClientFactory httpClientFactory, 
-            ClientCredentials credentials, 
             IOptions<ClientCredentials> options)
         {
             _httpClientFactory = httpClientFactory;
-            _credentials = credentials ?? options.Value;
+            _credentials =  options.Value;
         }
         
         public async Task<SignatureChallenge> GenerateChallengeAsync(string clientId, string domain, string address,
@@ -103,7 +102,7 @@ namespace Dimo.Client.Services.Authentication
 
         public async Task<Auth> GetTokenAsync(CancellationToken cancellationToken = default)
         {
-            if (_credentials == null)
+            if (!ValidateCredentials())
             {
                 throw new ArgumentNullException(nameof(_credentials), "Client credentials are not set. Have you set them?");
             }
@@ -112,6 +111,14 @@ namespace Dimo.Client.Services.Authentication
             var signature = await SignChallengeAsync(challenge.Challenge, _credentials.PrivateKey, cancellationToken);
             var auth = await SubmitChallengeAsync(_credentials.ClientId, _credentials.Domain, challenge.State, signature, cancellationToken);
             return auth;
+        }
+        
+        private bool ValidateCredentials()
+        {
+            return _credentials != null && !string.IsNullOrWhiteSpace(_credentials.ClientId) &&
+                   !string.IsNullOrWhiteSpace(_credentials.Domain) &&
+                   !string.IsNullOrWhiteSpace(_credentials.PrivateKey) &&
+                   !string.IsNullOrWhiteSpace(_credentials.Address);
         }
     }
 }

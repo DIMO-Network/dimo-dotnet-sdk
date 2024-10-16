@@ -24,7 +24,7 @@ var dimoClient = new DimoClientBuilder()
 var challenge = await dimoClient.AuthenticationService.GenerateChallengeAsync(
     clientId: "<your client id>",
     domain: "<your domain>",
-    address: "<your address>",
+    address: "<your address>"
     );
 
 var signedChallenge = await dimoClient.AuthenticationService.SignChallengeAsync(
@@ -37,8 +37,8 @@ var auth = await dimoClient.AuthenticationService.SubmitChallengeAsync(
     domain: "<your domain>",
     state: challenge.State,
     signature: signedChallenge
-    );*/
-
+    );
+*/
 // uncomment the following code to get data from the rest services.
 /*var tokenId = 12345; // token id from the device you want to get data from
 
