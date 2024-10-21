@@ -43,7 +43,8 @@ namespace Dimo.Client.Services.Telemetry
                 OperationName = queryName,
                 Variables = variables
             };
-            _client.HttpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {authToken}");
+            
+            _client.HttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
             
             var response = await _client.SendQueryAsync<T>(graphQlRequest, cancellationToken);
 
