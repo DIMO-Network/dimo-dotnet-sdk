@@ -29,7 +29,7 @@ namespace Dimo.Client.Models
     public class SignalValue
     {
         public DateTimeOffset TimeStamp { get; set; }
-        public double Value { get; set; }
+        public object Value { get; set; }
     }
 #elif NET6_0_OR_GREATER
     public record PidConfig(string TemplateName, string Version, Signal[] Requests);
@@ -40,6 +40,6 @@ namespace Dimo.Client.Models
     {
         public Dictionary<string, SignalValue> SignalsLatest { get; init; }
     }
-    public record SignalValue(DateTimeOffset TimeStamp, double Value);
+    public record SignalValue(DateTimeOffset TimeStamp, object Value);
 #endif
 }
