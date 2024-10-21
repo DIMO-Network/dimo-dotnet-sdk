@@ -10,9 +10,9 @@ namespace Dimo.Client.Models
 
     public class QueryResult
     {
-        public DateTime CreatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
         public ErrorCode[] ErrorCodes { get; set; }
-        public DateTime RequestedAt { get; set; }
+        public DateTimeOffset RequestedAt { get; set; }
     }
 
     public class ErrorCode
@@ -23,7 +23,7 @@ namespace Dimo.Client.Models
     #elif NET6_0_OR_GREATER
     public record AvailableErrorCode(QueryResult[] Queries);
     
-    public record QueryResult(DateTime CreatedAt, ErrorCode[] ErrorCodes, DateTime RequestedAt);
+    public record QueryResult(DateTimeOffset CreatedAt, ErrorCode[] ErrorCodes, DateTimeOffset RequestedAt);
     
     public record ErrorCode(string Code, string Description);
     

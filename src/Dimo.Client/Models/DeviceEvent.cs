@@ -10,7 +10,7 @@ namespace Dimo.Client.Models
         public string SubType { get; set; }
         public string UserId { get; set; }
         public object DeviceId { get; set; }
-        public DateTime Timestamp { get; set; }
+        public DateTimeOffset Timestamp { get; set; }
         public EventData Data { get; set; }
     }
 
@@ -21,7 +21,7 @@ namespace Dimo.Client.Models
         public string Timestamp { get; set; }
     }
 #elif NET6_0_OR_GREATER
-    public record DeviceEvent(string Id, string Type, string SubType, string UserId, object DeviceId, DateTime Timestamp, EventData Data);
+    public record DeviceEvent(string Id, string Type, string SubType, string UserId, object DeviceId, DateTimeOffset Timestamp, EventData Data);
     
     public record EventData(string Method, string UserId, string Timestamp);
 #endif

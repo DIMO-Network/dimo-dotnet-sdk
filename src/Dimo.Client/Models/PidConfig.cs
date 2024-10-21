@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace Dimo.Client.Models
 {
 #if NETSTANDARD
@@ -17,9 +20,26 @@ namespace Dimo.Client.Models
         public int IntervalSeconds { get; set; }
         public string Protocol { get; set; }
     }
+
+    public class LatestSignal
+    {
+        public Dictionary<string, SignalValue> SignalsLatest { get; set; }
+    }
+
+    public class SignalValue
+    {
+        public DateTimeOffset TimeStamp { get; set; }
+        public double Value { get; set; }
+    }
 #elif NET6_0_OR_GREATER
     public record PidConfig(string TemplateName, string Version, Signal[] Requests);
 
     public record Signal(string Name, int Header, int Mode, string Formula, int IntervalSeconds, string Protocol);
+
+    public record LatestSignal
+    {
+        public Dictionary<string, SignalValue> SignalsLatest { get; init; }
+    }
+    public record SignalValue(DateTimeOffset TimeStamp, double Value);
 #endif
 }

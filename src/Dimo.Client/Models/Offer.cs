@@ -13,7 +13,7 @@ namespace Dimo.Client.Models
         public string OdometerMeasurementType { get; set; }
         public Offer[] Offers { get; set; }
         public string Source { get; set; }
-        public DateTime Updated { get; set; }
+        public DateTimeOffset Updated { get; set; }
         public string Zipcode { get; set; }
     }
     
@@ -28,7 +28,7 @@ namespace Dimo.Client.Models
     }
 #elif NET6_0_OR_GREATER
     public record OfferData(OfferSet[] OfferSets);
-    public record OfferSet(int Mileage, string OdometerMeasurementType, Offer[] Offers, string Source, DateTime Updated, string Zipcode);
+    public record OfferSet(int Mileage, string OdometerMeasurementType, Offer[] Offers, string Source, DateTimeOffset Updated, string Zipcode);
     public record Offer(string DeclineReason, string Error, string Grade, decimal Price, string Url, string Vendor);
 #endif
 }

@@ -21,7 +21,7 @@ namespace Dimo.Client.Models
 
     public class TripStop
     {
-        public DateTime Time { get; set; }
+        public DateTimeOffset Time { get; set; }
         public Location Location { get; set; }
         public Location EstimatedLocation { get; set; }
     }
@@ -30,6 +30,6 @@ namespace Dimo.Client.Models
     
     public record Trip(string Id, TripStop Start, TripStop End, bool DroppedData);
     
-    public record TripStop(DateTime Time, Location Location, Location EstimatedLocation);
+    public record TripStop(DateTimeOffset Time, Location Location, Location EstimatedLocation);
 #endif
 }

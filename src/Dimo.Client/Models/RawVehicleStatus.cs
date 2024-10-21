@@ -11,7 +11,7 @@ namespace Dimo.Client.Models
         public StatusValue<int> Year { get; set; }
         public StatusValue<string> Model { get; set; }
         public ErrorResult Errors { get; set; }
-        public StatusValue<DateTime> TimeStamp { get; set; }
+        public StatusValue<DateTimeOffset> TimeStamp { get; set; }
         public StatusValue<string> VehicleId { get; set; }
     }
 
@@ -38,7 +38,7 @@ namespace Dimo.Client.Models
     {
         public T Value { get; set; }
         public string Source { get; set; }
-        public DateTime Timestamp { get; set; }
+        public DateTimeOffset Timestamp { get; set; }
     }
 #elif NET6_0_OR_GREATER
     public record RawVehicleStatus
@@ -48,7 +48,7 @@ namespace Dimo.Client.Models
         public StatusValue<int> Year { get; init; }
         public StatusValue<string> Model { get; init; }
         public ErrorResult Errors { get; init; }
-        public StatusValue<DateTime> TimeStamp { get; init; }
+        public StatusValue<DateTimeOffset> TimeStamp { get; init; }
         public StatusValue<string> VehicleId { get; init; }
     }
     
@@ -69,7 +69,7 @@ namespace Dimo.Client.Models
     {
         public T Value { get; init; }
         public string Source { get; init; }
-        public DateTime Timestamp { get; init; }
+        public DateTimeOffset Timestamp { get; init; }
     }
 #endif
 }

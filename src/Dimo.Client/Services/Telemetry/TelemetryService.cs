@@ -53,11 +53,11 @@ namespace Dimo.Client.Services.Telemetry
             throw new DimoGraphqlException("Something went wrong while executing query", errors);
         }
         
-        public Task<IReadOnlyCollection<Signal>> GetLatestSignalsAsync(long tokenId, string authToken, CancellationToken cancellationToken = default)
+        public Task<LatestSignal> GetLatestSignalsAsync(long tokenId, string authToken, CancellationToken cancellationToken = default)
         {
             const string query = @"
                                  query GetLatestSignals($tokenId: Int!){
-                                    signalsLatest(tokenID: $tokenId){
+                                    signalsLatest(tokenId: $tokenId){
                                      powertrainTransmissionTravelledDistance {
                                          timestamp
                                          value
@@ -83,7 +83,7 @@ namespace Dimo.Client.Services.Telemetry
                 tokenId
             };
             
-            return ExecuteQueryAsync<IReadOnlyCollection<Signal>>(
+            return ExecuteQueryAsync<LatestSignal>(
                 authToken, 
                 query, 
                 variables,

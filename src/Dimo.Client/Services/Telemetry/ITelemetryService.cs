@@ -8,7 +8,7 @@ namespace Dimo.Client.Services.Telemetry
 {
     public interface ITelemetryService
     {
-        Task<IReadOnlyCollection<Signal>> GetLatestSignalsAsync(long tokenId, string authToken, CancellationToken cancellationToken = default);
+        Task<LatestSignal> GetLatestSignalsAsync(long tokenId, string authToken, CancellationToken cancellationToken = default);
         Task<T> ExecuteQueryAsync<T>(string authToken, [StringSyntax("GraphQL")]string query, object variables, string queryName = "", CancellationToken cancellationToken = default);
     }
 }

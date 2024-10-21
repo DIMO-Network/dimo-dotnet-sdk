@@ -198,10 +198,10 @@ namespace Dimo.Client.Models
         public object HardwareTemplateId { get; set; }
 
         [JsonProperty("created_at")]
-        public DateTime CreatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
 
         [JsonProperty("updated_at")]
-        public DateTime UpdatedAt { get; set; }
+        public DateTimeOffset UpdatedAt { get; set; }
     }
     
     public class Type
@@ -421,10 +421,10 @@ namespace Dimo.Client.Models
         public object HardwareTemplateId {get; init; }
         
         [JsonPropertyName("created_at")]
-        public DateTime CreatedAt {get; init; }
+        public DateTimeOffset CreatedAt {get; init; }
         
         [JsonPropertyName("updated_at")]
-        public DateTime UpdatedAt {get; init; }
+        public DateTimeOffset UpdatedAt {get; init; }
     }
 
     public record Type

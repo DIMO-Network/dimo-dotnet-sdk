@@ -52,7 +52,7 @@ namespace Dimo.Client.Models
         public Location Location { get; set; }
         public string Id { get; set; }
         public string Path { get; set; }
-        public DateTime Time { get; set; }
+        public DateTimeOffset Time { get; set; }
         public string Type { get; set; }
     }
 
@@ -93,7 +93,7 @@ namespace Dimo.Client.Models
         public string Model { get; set; }
         public string Region { get; set; }
         public string Make { get; set; }
-        public DateTime Timestamp { get; set; }
+        public DateTimeOffset Timestamp { get; set; }
         public decimal Range { get; set; }
     }
     
@@ -144,7 +144,7 @@ namespace Dimo.Client.Models
         public Location Location { get; init; }
         public string Id { get; init; }
         public string Path { get; init; }
-        public DateTime Time { get; init; }
+        public DateTimeOffset Time { get; init; }
         public string Type { get; init; }
     }
     
@@ -185,7 +185,7 @@ namespace Dimo.Client.Models
         public string Model { get; init; }
         public string Region { get; init; }
         public string Make { get; init; }
-        public DateTime Timestamp { get; init; }
+        public DateTimeOffset Timestamp { get; init; }
         public decimal Range { get; init; }
     }
     
