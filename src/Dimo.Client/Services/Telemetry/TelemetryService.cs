@@ -3,6 +3,7 @@ using GraphQL.Client.Serializer.Newtonsoft;
 #elif NET6_0_OR_GREATER
 using GraphQL.Client.Serializer.SystemTextJson;
 #endif
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -29,11 +30,11 @@ namespace Dimo.Client.Services.Telemetry
             _client = new GraphQLHttpClient(httpClient.BaseAddress!, new SystemTextJsonSerializer(), httpClient);
 #endif
         }
-        
+
         public async Task<T> ExecuteQueryAsync<T>(
-            string authToken, 
-            [StringSyntax("GraphQL")]string query, 
-            object variables, 
+            string authToken,
+            [StringSyntax("GraphQL")] string query,
+            object variables,
             string queryName = "",
             CancellationToken cancellationToken = default)
         {
@@ -43,18 +44,62 @@ namespace Dimo.Client.Services.Telemetry
                 OperationName = queryName,
                 Variables = variables
             };
-            
-            _client.HttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
-            
+
+            _client.HttpClient.DefaultRequestHeaders.Authorization =
+                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
+
             var response = await _client.SendQueryAsync<T>(graphQlRequest, cancellationToken);
 
             if (response.Errors == null) return response.Data;
-            
+
             var errors = response.Errors.Select(e => e.Message).ToArray();
             throw new DimoGraphqlException("Something went wrong while executing query", errors);
         }
-        
-        public Task<LatestSignal> GetLatestSignalsAsync(long tokenId, string authToken, CancellationToken cancellationToken = default)
+
+        public Task<VehicleVinVcLatest> GetVinVcLatestAsync(long tokenId, string vehicleToken,
+            CancellationToken cancellationToken = default)
+        {
+            if (tokenId <= 0)
+            {
+                throw new ArgumentException("Token ID must be a positive integer", nameof(tokenId));
+            }
+            
+            if (string.IsNullOrEmpty(vehicleToken))
+            {
+                throw new ArgumentException("Vehicle token must not be null or empty", nameof(vehicleToken));
+            }
+            
+            const string query = @"
+                                 query GetVinVcLatest($tokenId: Int!) {
+                                   vinVCLatest(tokenId: $tokenId) {
+                                     vehicleTokenId
+                                     vin
+                                     recordedBy
+                                     recordedAt
+                                     countryCode
+                                     vehicleContractAddress
+                                     validFrom
+                                     validTo
+                                     rawVC
+                                   }
+                                 }
+                                 ";
+
+            var variables = new
+            {
+                tokenId
+            };
+            
+            return ExecuteQueryAsync<VehicleVinVcLatest>(
+                vehicleToken,
+                query,
+                variables,
+                queryName: "GetVinVcLatest",
+                cancellationToken: cancellationToken);
+        }
+
+        public Task<LatestSignal> GetLatestSignalsAsync(long tokenId, string authToken,
+            CancellationToken cancellationToken = default)
         {
             const string query = @"
                                  query GetLatestSignals($tokenId: Int!){
@@ -78,15 +123,15 @@ namespace Dimo.Client.Services.Telemetry
                                     }
                                  }
                                  ";
-            
+
             var variables = new
             {
                 tokenId
             };
-            
+
             return ExecuteQueryAsync<LatestSignal>(
-                authToken, 
-                query, 
+                authToken,
+                query,
                 variables,
                 queryName: "GetLatestSignals",
                 cancellationToken: cancellationToken);

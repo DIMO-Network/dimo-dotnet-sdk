@@ -152,3 +152,17 @@ foreach (var node in response.Vehicles.Nodes)
     }
 }
 */
+
+
+// Create verifiable vin vc and get the latest vin vc
+var tokenId = 1234;
+
+var vehicleToken = "<your vehicle token>";
+
+var vinVc = await dimoClient.AttestationService.CreateVinVcAsync(tokenId, vehicleToken);
+
+Console.WriteLine(vinVc);
+
+var vinVcLatest = await dimoClient.TelemetryService.GetVinVcLatestAsync(tokenId, vehicleToken);
+
+Console.WriteLine(vinVcLatest);

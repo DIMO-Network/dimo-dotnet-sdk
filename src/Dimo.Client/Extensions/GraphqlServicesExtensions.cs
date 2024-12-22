@@ -1,8 +1,6 @@
 using System;
-using Dimo.Client.Services.Authentication;
 using Dimo.Client.Services.Identity;
 using Dimo.Client.Services.Telemetry;
-using Dimo.Client.Services.TokenExchange;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Dimo.Client.Extensions

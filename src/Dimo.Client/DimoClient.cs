@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Dimo.Client.Extensions;
+using Dimo.Client.Services.Attestation;
 using Dimo.Client.Services.Authentication;
 using Dimo.Client.Services.DeviceData;
 using Dimo.Client.Services.DeviceDefinitions;
@@ -19,6 +20,7 @@ namespace Dimo.Client
 {
     public interface IDimoClient : IAsyncDisposable, IDisposable
     {
+        IAttestationService AttestationService { get; }
         IAuthenticationService AuthenticationService { get; }
         IDeviceDataService DeviceDataService { get; }
         IDeviceDefinitionsService DeviceDefinitionsService { get; }
@@ -35,6 +37,7 @@ namespace Dimo.Client
 
     internal class DimoClient : IDimoClient
     {
+        public IAttestationService AttestationService => _provider.GetRequiredService<IAttestationService>();
         public IAuthenticationService AuthenticationService => _provider.GetRequiredService<IAuthenticationService>();
         public IDeviceDataService DeviceDataService => _provider.GetRequiredService<IDeviceDataService>();
         public IDeviceDefinitionsService DeviceDefinitionsService => _provider.GetRequiredService<IDeviceDefinitionsService>();

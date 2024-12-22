@@ -9,6 +9,7 @@ namespace Dimo.Client
     
     internal static class ProdApiUrls
     {
+        public const string Attestation = "https://attestation-api.dimo.zone";
         public const string Auth = "https://auth.dimo.zone";
         public const string Devices = "https://devices-api.dimo.zone";
         public const string DeviceData = "https://device-data-api.dimo.zone";
@@ -25,6 +26,7 @@ namespace Dimo.Client
     
     internal static class DevApiUrls
     {
+        public const string Attestation = "https://attestation-api.dev.dimo.zone";
         public const string Auth = "https://auth.dev.dimo.zone";
         public const string Devices = "https://devices-api.dev.dimo.zone";
         public const string DeviceData = "https://device-data-api.dev.dimo.zone";
@@ -41,6 +43,7 @@ namespace Dimo.Client
 
     internal static class ApiNames
     {
+        public const string Attestation = "AttestationApi";
         public const string Auth = "AuthApi";
         public const string Devices = "DevicesApi";
         public const string DeviceData = "DeviceDataApi";
@@ -112,6 +115,10 @@ namespace Dimo.Client
                             ApiNames.Telemetry,
                             DevApiUrls.Telemetry
                         },
+                        {
+                            ApiNames.Attestation,
+                            DevApiUrls.Attestation
+                        }
                     }
 
                 },
@@ -166,6 +173,10 @@ namespace Dimo.Client
                             ApiNames.Telemetry,
                             ProdApiUrls.Telemetry
                         },
+                        {
+                            ApiNames.Attestation,
+                            ProdApiUrls.Attestation
+                        }
                     }
                 }
             };
