@@ -56,7 +56,7 @@ namespace Dimo.Client.Services.Telemetry
             throw new DimoGraphqlException("Something went wrong while executing query", errors);
         }
 
-        public Task<VehicleVinVcLatest> GetVinVcLatestAsync(long tokenId, string vehicleToken,
+        public Task<VinVcLatestScheme<VehicleVinVcLatest>> GetVehicleVinVcLatestAsync(long tokenId, string vehicleToken,
             CancellationToken cancellationToken = default)
         {
             if (tokenId <= 0)
@@ -90,7 +90,7 @@ namespace Dimo.Client.Services.Telemetry
                 tokenId
             };
             
-            return ExecuteQueryAsync<VehicleVinVcLatest>(
+            return ExecuteQueryAsync<VinVcLatestScheme<VehicleVinVcLatest>>(
                 vehicleToken,
                 query,
                 variables,

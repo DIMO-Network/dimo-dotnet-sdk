@@ -39,7 +39,7 @@ namespace Dimo.Client.Services.Telemetry
         /// var latestVc = await client.GetVinVcLatestAsync(tokenId, vehicleToken);
         /// </remarks>
         
-        Task<VehicleVinVcLatest> GetVinVcLatestAsync(long tokenId,string vehicleToken, CancellationToken cancellationToken = default);
+        Task<VinVcLatestScheme<VehicleVinVcLatest>> GetVehicleVinVcLatestAsync(long tokenId,string vehicleToken, CancellationToken cancellationToken = default);
         Task<LatestSignal> GetLatestSignalsAsync(long tokenId, string authToken, CancellationToken cancellationToken = default);
         Task<T> ExecuteQueryAsync<T>(string authToken, [StringSyntax("GraphQL")]string query, object variables, string queryName = "", CancellationToken cancellationToken = default);
     }

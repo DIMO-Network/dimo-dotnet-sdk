@@ -9,6 +9,12 @@ using System.Text.Json.Serialization;
 namespace Dimo.Client.Models
 {
 #if NETSTANDARD
+public class VinVcLatestScheme<T>
+    {
+        [JsonProperty("vinVCLatest")]
+        public T VinVcLatest { get; set; }
+    }
+
     public class VehicleVinVcLatest
     {
         public long VehicleTokenId { get; set; }
@@ -24,19 +30,19 @@ namespace Dimo.Client.Models
         public string RawVc { get; set; }
     }
 #elif NET6_0_OR_GREATER
-    public record VehicleVinVcLatest
-    {
-        public long VehicleTokenId { get; init; }
-        public string Vin { get; init; }
-        public string RecordedBy { get; init; }
-        public DateTime RecordedAt { get; init; }
-        public string CountryCode { get; init; }
-        public string VehicleContractAddress { get; init; }
-        public DateTime ValidFrom { get; init; }
-        public DateTime ValidTo { get; init; }
-        
-        [JsonPropertyName("rawVC")]
-        public string RawVc { get; init; }
-    }
+
+    public record VinVcLatestScheme<T>(T VinVcLatest);
+
+    public record VehicleVinVcLatest(
+        long VehicleTokenId,
+        string Vin,
+        string RecordedBy,
+        DateTime RecordedAt,
+        string CountryCode,
+        string VehicleContractAddress,
+        DateTime ValidFrom,
+        DateTime ValidTo,
+        string RawVc);
+
 #endif
 }
