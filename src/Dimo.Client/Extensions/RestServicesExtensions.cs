@@ -1,4 +1,5 @@
 using System;
+using Dimo.Client.Services.Attestation;
 using Dimo.Client.Services.Authentication;
 using Dimo.Client.Services.DeviceData;
 using Dimo.Client.Services.DeviceDefinitions;
@@ -17,6 +18,7 @@ namespace Dimo.Client.Extensions
     {
         internal static IServiceCollection AddDimoRestServices(this IServiceCollection services)
         {
+            services.AddScoped<IAttestationService, AttestationService>();
             services.AddScoped<IDeviceDataService, DeviceDataService>();
             services.AddScoped<IDeviceDefinitionsService, DeviceDefinitionService>();
             services.AddScoped<IDevicesService, DevicesService>();

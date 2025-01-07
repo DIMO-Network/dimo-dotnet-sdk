@@ -152,3 +152,19 @@ foreach (var node in response.Vehicles.Nodes)
     }
 }
 */
+
+
+#region Create Verifiable Credentials
+// // Create verifiable vin vc and get the latest vin vc
+// var tokenId = 0;
+//
+// var vehicleToken = "";
+//
+// var vinVc = await dimoClient.AttestationService.CreateVinVcAsync(tokenId, vehicleToken);
+//
+// Console.WriteLine(vinVc);
+//
+// var vinVcLatest = await dimoClient.TelemetryService.GetVehicleVinVcLatestAsync(tokenId, vehicleToken);
+//
+// Console.WriteLine(vinVcLatest);
+#endregion
