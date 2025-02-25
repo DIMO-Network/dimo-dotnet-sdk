@@ -10,16 +10,19 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Dimo.Client.Models;
+using Dimo.Client.Services.Identity;
 
 namespace Dimo.Client.Services.TokenExchange
 {
     internal sealed class TokenExchangeService : ITokenExchangeService
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IIdentityService _identityService;
         private readonly RpcSigner _rpcSigner;
-        public TokenExchangeService(IHttpClientFactory httpClientFactory, RpcSigner rpcSigner)
+        public TokenExchangeService(IHttpClientFactory httpClientFactory, IIdentityService identityService, RpcSigner rpcSigner)
         {
             _httpClientFactory = httpClientFactory;
+            _identityService = identityService;
             _rpcSigner = rpcSigner;
         }
 
@@ -54,6 +57,11 @@ namespace Dimo.Client.Services.TokenExchange
 #endif
                 
             }
+        }
+
+        public Task<PrivilegeToken> GetPrivilegeTokenAsync(string accessToken, long tokenId, CancellationToken cancellationToken = default)
+        {
+            
         }
     }
 }

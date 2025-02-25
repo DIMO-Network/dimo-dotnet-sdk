@@ -29,7 +29,30 @@ namespace Dimo.Client.Services.Identity
             _client = new GraphQLHttpClient(httpClient.BaseAddress!, new SystemTextJsonSerializer(), httpClient);
 #endif
         }
-        
+
+        public Task<VehicleSchemeResponse<VehicleNode>> CheckVehiclePrivilegesAsync(long tokenId, CancellationToken cancellationToken = default)
+        {
+            const string query = @"query CheckPrivileges($tokenId: Int!) {
+                                          vehicle(tokenId: $tokenId) {
+                                            sacds(first: 100) {
+                                              nodes {
+                                                permissions
+                                                grantee
+                                              }                                              
+                                            }
+                                          }
+                                        }";
+            var variables = new
+            {
+                tokenId
+            };
+            return ExecuteQueryAsync<VehicleSchemeResponse<VehicleNode>>(
+                query, 
+                variables,
+                queryName: "CheckPrivileges", 
+                cancellationToken: cancellationToken);
+        }
+
         public async Task<T> ExecuteQueryAsync<T>(
             [StringSyntax("GraphQL")]string query, 
             object variables, 
@@ -50,7 +73,7 @@ namespace Dimo.Client.Services.Identity
             throw new DimoGraphqlException("Something went wrong while executing query", errors);
         }
 
-        public Task<VehicleSchemeResponse<CountResult>> CountDimoVehiclesAsync(CancellationToken cancellationToken = default)
+        public Task<VehiclesSchemeResponse<CountResult>> CountDimoVehiclesAsync(CancellationToken cancellationToken = default)
         {
             const string query = @"
                         {
@@ -59,10 +82,10 @@ namespace Dimo.Client.Services.Identity
                             }
                         }
                         ";
-            return ExecuteQueryAsync<VehicleSchemeResponse<CountResult>>(query, new {}, cancellationToken: cancellationToken);
+            return ExecuteQueryAsync<VehiclesSchemeResponse<CountResult>>(query, new {}, cancellationToken: cancellationToken);
         }
 
-        public Task<VehicleSchemeResponse<VehicleDefinition>> ListVehiclesDefinitionsPerAddressAsync(string address, int limit, CancellationToken cancellationToken = default)
+        public Task<VehiclesSchemeResponse<VehicleDefinition>> ListVehiclesDefinitionsPerAddressAsync(string address, int limit, CancellationToken cancellationToken = default)
         {
             const string query = @"
                         query ListVehiclesDefinitionsPerAddress($address: Address!, $limit: Int!) {
@@ -91,14 +114,174 @@ namespace Dimo.Client.Services.Identity
                 address,
                 limit
             };
-
             
-            return ExecuteQueryAsync<VehicleSchemeResponse<VehicleDefinition>>(
+            return ExecuteQueryAsync<VehiclesSchemeResponse<VehicleDefinition>>(
                 query, 
                 variables, 
                 queryName: "ListVehiclesDefinitionsPerAddress", 
                 cancellationToken: cancellationToken);
         }
 
+        public Task<VehicleSchemeResponse<VehicleNode>> ListTokenIdsPrivilegesByOwnerAsync(string address, int vehicleLimit, int privilegesLimit,
+            CancellationToken cancellationToken = default)
+        {
+            const string query = @"
+                                query TokenIDsPrivilegesByOwner($owner: Address!, $firstVehicles: Int!, $firstPrivileges: Int!) {
+                                      vehicles(filterBy: {owner: $owner}, first: $firstVehicles) {
+                                        nodes {
+                                          tokenId
+                                          privileges(first: $firstPrivileges) {
+                                            nodes {
+                                              setAt
+                                              expiresAt
+                                              id
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }";
+
+            var variables = new
+            {
+                owner = address,
+                firstVehicles = vehicleLimit,
+                firstPrivileges = privilegesLimit
+            };
+            
+            return ExecuteQueryAsync<VehicleSchemeResponse<VehicleNode>>(
+                query, 
+                variables, 
+                queryName: "TokenIDsPrivilegesByOwner", 
+                cancellationToken: cancellationToken);
+        }
+
+        public Task<VehiclesSchemeResponse<VehicleDefinition>> ListTokenIdsGrantedToDevByOwnerAsync(string ownerAddress, string devAddress, int vehicleLimit, int privilegesLimit,
+            CancellationToken cancellationToken = default)
+        {
+            const string query =
+                @"query ListTokenIdsGrantedToDevByOwner($privileged: Address!, $owner: Address!, $first: Int!) {
+                      vehicles(filterBy: {privileged: $privileged, owner: $owner}, first: $first) {
+                        nodes {
+                          tokenId
+                          definition {
+                            make
+                          }
+                          aftermarketDevice {
+                            manufacturer {
+                              name
+                            }
+                          }
+                        }
+                      }
+                    }";
+            
+            var variables = new
+            {
+                privileged = devAddress,
+                owner = ownerAddress,
+                first = vehicleLimit
+            };
+            
+            return ExecuteQueryAsync<VehiclesSchemeResponse<VehicleDefinition>>(
+                query, 
+                variables, 
+                queryName: "ListTokenIdsGrantedToDevByOwner", 
+                cancellationToken: cancellationToken);
+        }
+
+        public Task<VehiclesSchemeResponse<VehicleNode>> GetMakeModelYearByOwnerAsync(string address, int limit, CancellationToken cancellationToken = default)
+        {
+            const string query = @"query MMYByOwner($owner: Address!, $first: Int!) {
+                                          vehicles(filterBy: {owner: $owner}, first: $first) {
+                                            nodes {
+                                              definition {
+                                                make
+                                                model
+                                                year
+                                              }
+                                            }
+                                          }
+                                        }";
+            var variables = new
+            {
+                owner = address,
+                first = limit
+            };
+            
+            return ExecuteQueryAsync<VehiclesSchemeResponse<VehicleNode>>(
+                query, 
+                variables, 
+                queryName: "MMYByOwner", 
+                cancellationToken: cancellationToken);
+        }
+
+        public Task<VehicleSchemeResponse<VehicleNode>> GetMakeModelYearByTokenIdAsync(long tokenId, CancellationToken cancellationToken = default)
+        {
+            const string query = @"query MMYByTokenID($tokenId: Int!) {
+                                        vehicle (tokenId: $tokenId) {
+                                          aftermarketDevice {
+                                            tokenId
+                                            address
+                                          }
+                                          syntheticDevice {
+                                            tokenId
+                                            address
+                                          }
+                                          definition {
+                                            make
+                                            model
+                                            year
+                                          }
+                                        }
+                                      }";
+            var variables = new
+            {
+                tokenId
+            };
+            
+            return ExecuteQueryAsync<VehicleSchemeResponse<VehicleNode>>(
+                query, 
+                variables, 
+                queryName: "MMYByTokenID", 
+                cancellationToken: cancellationToken);
+        }
+
+        public Task<VehiclesSchemeResponse<VehicleDefinition>> GetDimoCanonicalNameByOwnerAsync(string address, int limit, CancellationToken cancellationToken = default)
+        {
+            const string query = @"query DCNByOwner($owner: Address!, $first: Int!) {
+                                      vehicles(filterBy: {owner: $owner}, first: $first) {
+                                        nodes {
+                                          dcn {
+                                            node
+                                            name
+                                            vehicle {
+                                              tokenId
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }";
+            var variables = new
+            {
+                owner = address,
+                first = limit
+            };
+            
+            return ExecuteQueryAsync<VehiclesSchemeResponse<VehicleDefinition>>(
+                query, 
+                variables, 
+                queryName: "DCNByOwner", 
+                cancellationToken: cancellationToken);
+        }
+
+        public Task GetRewardsByOwnerAsync(string address, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task GetRewardsHistoryByOwnerAsync(string address, int limit, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
