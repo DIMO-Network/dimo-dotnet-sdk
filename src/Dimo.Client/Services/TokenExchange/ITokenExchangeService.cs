@@ -7,5 +7,6 @@ namespace Dimo.Client.Services.TokenExchange
     public interface ITokenExchangeService
     {
         Task<PrivilegeToken> GetPrivilegeTokenAsync(string accessToken, long tokenId, PrivilegeSharing[] privileges, CancellationToken cancellationToken = default);
+        Task<PrivilegeToken> GetPrivilegeTokenAsync(string accessToken, long tokenId, CancellationToken cancellationToken = default);
     }
 }
