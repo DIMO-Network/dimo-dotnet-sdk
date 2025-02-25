@@ -274,14 +274,62 @@ namespace Dimo.Client.Services.Identity
                 cancellationToken: cancellationToken);
         }
 
-        public Task GetRewardsByOwnerAsync(string address, CancellationToken cancellationToken = default)
+        public Task<UserReward> GetRewardsByOwnerAsync(string address, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            const string query = @"query RewardsByOwner($owner: Address!) {
+                                        rewards (user: $owner) {
+                                          totalTokens
+                                        }
+                                      }";
+            var variables = new
+            {
+                owner = address
+            };
+            
+            return ExecuteQueryAsync<UserReward>(
+                query, 
+                variables, 
+                queryName: "RewardsByOwner", 
+                cancellationToken: cancellationToken);
         }
 
-        public Task GetRewardsHistoryByOwnerAsync(string address, int limit, CancellationToken cancellationToken = default)
+        public Task<VehiclesSchemeResponse<VehicleDefinition>> GetRewardsHistoryByOwnerAsync(string address, int limit, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            const string query = @"
+                                query GetVehicleDataByOwner($owner: Address!, $first: Int!) {
+                                        vehicles (filterBy: {owner: $owner}, first: $first) {
+                                          nodes {
+                                            earnings {
+                                              history (first: $first) {
+                                                edges {
+                                                  node {
+                                                    week
+                                                    aftermarketDeviceTokens
+                                                    syntheticDeviceTokens
+                                                    sentAt
+                                                    beneficiary
+                                                    connectionStreak
+                                                    streakTokens
+                                                  }
+                                                }
+                                              }
+                                              totalTokens
+                                            }
+                                          }
+                                        }
+                                      }";
+
+            var variables = new
+            {
+                owner = address,
+                first = limit
+            };
+            
+            return ExecuteQueryAsync<VehiclesSchemeResponse<VehicleDefinition>>(
+                query, 
+                variables, 
+                queryName: "GetVehicleDataByOwner", 
+                cancellationToken: cancellationToken);
         }
     }
 }

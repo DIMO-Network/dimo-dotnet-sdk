@@ -14,8 +14,8 @@ namespace Dimo.Client.Services.Identity
         Task<VehiclesSchemeResponse<VehicleNode>> GetMakeModelYearByOwnerAsync(string address, int limit, CancellationToken cancellationToken = default);
         Task<VehicleSchemeResponse<VehicleNode>> GetMakeModelYearByTokenIdAsync(long tokenId, CancellationToken cancellationToken = default);
         Task<VehiclesSchemeResponse<VehicleDefinition>> GetDimoCanonicalNameByOwnerAsync(string address, int limit, CancellationToken cancellationToken = default);
-        Task GetRewardsByOwnerAsync(string address, CancellationToken cancellationToken = default);
-        Task GetRewardsHistoryByOwnerAsync(string address, int limit, CancellationToken cancellationToken = default);
+        Task<UserReward> GetRewardsByOwnerAsync(string address, CancellationToken cancellationToken = default);
+        Task<VehiclesSchemeResponse<VehicleDefinition>> GetRewardsHistoryByOwnerAsync(string address, int limit, CancellationToken cancellationToken = default);
         Task<VehicleSchemeResponse<VehicleNode>> CheckVehiclePrivilegesAsync(long tokenId, CancellationToken cancellationToken = default);
         Task<T> ExecuteQueryAsync<T>([StringSyntax("GraphQL")]string query, object variables, string queryName, CancellationToken cancellationToken = default);
     }
