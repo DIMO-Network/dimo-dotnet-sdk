@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
+using Dimo.Client.Exceptions;
 using Dimo.Client.Models;
 using Microsoft.Extensions.Options;
 using Nethereum.Signer;
@@ -91,9 +92,13 @@ namespace Dimo.Client.Services.Authentication
             }
         }
 
-        public async Task<Auth> GetTokenAsync(string clientId, string domain, string privateKey, string address,
+        public async Task<Auth> GetTokenAsync(string clientId, string domain, string privateKey, string address = null,
             CancellationToken cancellationToken = default)
         {
+            if (string.IsNullOrWhiteSpace(address)) address = clientId;
+            
+            
+            
             var challenge = await GenerateChallengeAsync(clientId, domain, address, cancellationToken);
             var signature = await SignChallengeAsync(challenge.Challenge, privateKey, cancellationToken);
             var auth = await SubmitChallengeAsync(clientId, domain, challenge.State, signature, cancellationToken);
@@ -103,9 +108,7 @@ namespace Dimo.Client.Services.Authentication
         public async Task<Auth> GetTokenAsync(CancellationToken cancellationToken = default)
         {
             if (!ValidateCredentials())
-            {
-                throw new ArgumentNullException("ClientCredentials", "Client credentials are not set. Have you set them?");
-            }
+                throw new DimoException("Client credentials are not set. Have you set them?");
             
             var challenge = await GenerateChallengeAsync(_credentials.ClientId, _credentials.Domain, _credentials.Address, cancellationToken);
             var signature = await SignChallengeAsync(challenge.Challenge, _credentials.PrivateKey, cancellationToken);
