@@ -31,9 +31,7 @@ namespace Dimo.Client.Services.Attestation
             if (string.IsNullOrWhiteSpace(vehicleToken))
                 throw new ArgumentException("Vehicle token must not be null or empty", nameof(vehicleToken)); 
 
-
             const string path = "/v1/vc/vin/{0}";
-
             using (var client = _httpClientFactory.CreateClient(ApiNames.Attestation))
             {
                 client.DefaultRequestHeaders.Authorization =

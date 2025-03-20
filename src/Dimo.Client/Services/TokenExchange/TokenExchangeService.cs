@@ -86,19 +86,16 @@ namespace Dimo.Client.Services.TokenExchange
         private async Task<IList<PrivilegeSharing>> DecodeVehiclePermissionsAsync(long tokenId, string clientId, CancellationToken cancellationToken = default)
         {
             var privileges = await _identityService.CheckVehiclePrivilegesAsync(tokenId, cancellationToken);
+            
             if (privileges.Vehicle == null)
-            {
                 throw new DimoException("Vehicle not found");
-            }
 
             var foundSacd =
                 privileges.Vehicle.ServiceAccessContractDefinitions.Nodes.FirstOrDefault(node =>
                     node.Grantee.Equals(clientId));
             
             if (foundSacd == null)
-            {
                 throw new DimoException("Client does not have access to this vehicle");
-            }
             
             return DecodePermissionBits(foundSacd.Permissions);
         }

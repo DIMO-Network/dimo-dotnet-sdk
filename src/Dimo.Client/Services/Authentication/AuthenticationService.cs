@@ -29,8 +29,7 @@ namespace Dimo.Client.Services.Authentication
             _credentials =  options.Value;
         }
         
-        public async Task<SignatureChallenge> GenerateChallengeAsync(string clientId, string domain, string address,
-            CancellationToken cancellationToken = default)
+        public async Task<SignatureChallenge> GenerateChallengeAsync(string clientId, string domain, CancellationToken cancellationToken = default)
         {
             using (var client = _httpClientFactory.CreateClient(ApiNames.Auth))
             {
@@ -40,7 +39,7 @@ namespace Dimo.Client.Services.Authentication
                     new KeyValuePair<string, string>("response_type", "code"),
                     new KeyValuePair<string, string>("client_id", clientId),
                     new KeyValuePair<string, string>("domain", domain),
-                    new KeyValuePair<string, string>("address", address)
+                    new KeyValuePair<string, string>("address", clientId)
                 });
                 
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -92,14 +91,9 @@ namespace Dimo.Client.Services.Authentication
             }
         }
 
-        public async Task<Auth> GetTokenAsync(string clientId, string domain, string privateKey, string address = null,
-            CancellationToken cancellationToken = default)
+        public async Task<Auth> GetTokenAsync(string clientId, string domain, string privateKey, CancellationToken cancellationToken = default)
         {
-            if (string.IsNullOrWhiteSpace(address)) address = clientId;
-            
-            
-            
-            var challenge = await GenerateChallengeAsync(clientId, domain, address, cancellationToken);
+            var challenge = await GenerateChallengeAsync(clientId, domain, cancellationToken);
             var signature = await SignChallengeAsync(challenge.Challenge, privateKey, cancellationToken);
             var auth = await SubmitChallengeAsync(clientId, domain, challenge.State, signature, cancellationToken);
             return auth;
@@ -110,7 +104,7 @@ namespace Dimo.Client.Services.Authentication
             if (!ValidateCredentials())
                 throw new DimoException("Client credentials are not set. Have you set them?");
             
-            var challenge = await GenerateChallengeAsync(_credentials.ClientId, _credentials.Domain, _credentials.Address, cancellationToken);
+            var challenge = await GenerateChallengeAsync(_credentials.ClientId, _credentials.Domain, cancellationToken);
             var signature = await SignChallengeAsync(challenge.Challenge, _credentials.PrivateKey, cancellationToken);
             var auth = await SubmitChallengeAsync(_credentials.ClientId, _credentials.Domain, challenge.State, signature, cancellationToken);
             return auth;
@@ -120,8 +114,7 @@ namespace Dimo.Client.Services.Authentication
         {
             return _credentials != null && !string.IsNullOrWhiteSpace(_credentials.ClientId) &&
                    !string.IsNullOrWhiteSpace(_credentials.Domain) &&
-                   !string.IsNullOrWhiteSpace(_credentials.PrivateKey) &&
-                   !string.IsNullOrWhiteSpace(_credentials.Address);
+                   !string.IsNullOrWhiteSpace(_credentials.PrivateKey);
         }
     }
 }
