@@ -1,6 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-using Dimo.Client;
+﻿using Dimo.Client;
 using Dimo.Client.Models;
 
 var dimoClient = new DimoClientBuilder()

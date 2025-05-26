@@ -22,6 +22,7 @@ namespace Dimo.Client
         public const string VehicleSignalDecoding = "https://vehicle-signal-decoding.dimo.zone";
         public const string Identity = "https://identity-api.dimo.zone/query";
         public const string Telemetry = "https://telemetry-api.dimo.zone/query";
+        public const string Webhooks = "https://vehicle-events-api.dimo.zone/";
     }
     
     internal static class DevApiUrls
@@ -39,6 +40,7 @@ namespace Dimo.Client
         public const string VehicleSignalDecoding = "https://vehicle-signal-decoding.dev.dimo.zone";
         public const string Identity = "https://identity-api.dev.dimo.zone/query";
         public const string Telemetry = "https://telemetry-api.dev.dimo.zone/query";
+        public const string Webhooks = "https://vehicle-events-api.dev.dimo.zone/";
     }
 
     internal static class ApiNames
@@ -56,6 +58,7 @@ namespace Dimo.Client
         public const string VehicleSignalDecoding = "VehicleSignalDecodingApi";
         public const string Identity = "IdentityApi";
         public const string Telemetry = "TelemetryApi";
+        public const string Webhooks = "WebhooksApi";
     }
     
     internal static class Constants
@@ -118,6 +121,10 @@ namespace Dimo.Client
                         {
                             ApiNames.Attestation,
                             DevApiUrls.Attestation
+                        },
+                        {
+                            ApiNames.Webhooks,
+                            DevApiUrls.Webhooks
                         }
                     }
 
@@ -176,6 +183,10 @@ namespace Dimo.Client
                         {
                             ApiNames.Attestation,
                             ProdApiUrls.Attestation
+                        },
+                        {
+                            ApiNames.Webhooks,
+                            ProdApiUrls.Webhooks
                         }
                     }
                 }

@@ -12,7 +12,6 @@ namespace Dimo.Client
         internal ClientCredentials Credentials { get; private set; }
         internal bool RestServices { get; private set; }
         internal bool GraphqlServices { get; private set; }
-        internal bool Streamr { get; private set; }
         
         public DimoClientBuilder()
         {
@@ -82,7 +81,7 @@ namespace Dimo.Client
         /// <returns>Returns an instance of <see cref="IDimoClient"/></returns>
         public IDimoClient Build()
         {
-            return new DimoClient(Environment, Credentials, RestServices, GraphqlServices, Streamr);
+            return new DimoClient(Environment, Credentials, RestServices, GraphqlServices);
         }
     }
 }

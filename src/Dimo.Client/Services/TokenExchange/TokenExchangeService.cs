@@ -71,7 +71,7 @@ namespace Dimo.Client.Services.TokenExchange
             }
         }
 
-        public async Task<PrivilegeToken> GetPrivilegeTokenAsync(string accessToken, long tokenId, string clientId, CancellationToken cancellationToken = default)
+        public async Task<PrivilegeToken> GetPrivilegeTokenAsync(string accessToken, long tokenId, string clientId = null, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrWhiteSpace(clientId)) 
                 clientId = _credentials.ClientId;

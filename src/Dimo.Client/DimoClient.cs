@@ -45,8 +45,7 @@ namespace Dimo.Client
             DimoEnvironment environment,
             ClientCredentials credentials,
             bool restServices, 
-            bool graphql, 
-            bool streamr)
+            bool graphql)
         {
             var collection = new ServiceCollection();
             
