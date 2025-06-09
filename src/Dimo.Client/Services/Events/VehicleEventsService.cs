@@ -9,7 +9,9 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Dimo.Client.Extensions;
 using Dimo.Client.Models;
+using Newtonsoft.Json.Linq;
 
 namespace Dimo.Client.Services.Events
 {
@@ -36,7 +38,8 @@ namespace Dimo.Client.Services.Events
                 client.DefaultRequestHeaders.Authorization =
                     new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
                 var response = await client.GetAsync(BasePath, cancellationToken);
-                response.EnsureSuccessStatusCode();
+                
+                await response.ThrowIfFailedAsync();
 #if NETSTANDARD
                 var json = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<IReadOnlyCollection<WebhookDefinition>>(json);
@@ -61,7 +64,8 @@ namespace Dimo.Client.Services.Events
 #elif NET6_0_OR_GREATER
                 var response = await client.PostAsJsonAsync(BasePath, definitionWebhookDefinitionRequest, cancellationToken);
 #endif
-                response.EnsureSuccessStatusCode();
+                await response.ThrowIfFailedAsync();
+                
 #if NETSTANDARD
                 var json = await response.Content.ReadAsStringAsync();
                 var webhookDefinition = JsonConvert.DeserializeObject<WebhookDefinition>(json);
@@ -88,8 +92,7 @@ namespace Dimo.Client.Services.Events
                 client.DefaultRequestHeaders.Authorization =
                     new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
                 var response = await client.GetAsync(SignalsPath, cancellationToken);
-                response.EnsureSuccessStatusCode();
-
+                await response.ThrowIfFailedAsync();
 #if NETSTANDARD
                 var json = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<IReadOnlyCollection<WebhookSignal>>(json);
@@ -113,10 +116,10 @@ namespace Dimo.Client.Services.Events
                     await client.PutAsync(string.Format(BasePath + "/{0}", webhookId), content, cancellationToken);
 #elif NET6_0_OR_GREATER
                 var response =
- await client.PutAsJsonAsync(string.Format(BasePath + "/{0}", webhookId), definitionWebhookDefinitionRequest,
+                    await client.PutAsJsonAsync(string.Format(BasePath + "/{0}", webhookId), definitionWebhookDefinitionRequest,
                     cancellationToken);
 #endif
-                response.EnsureSuccessStatusCode();
+                await response.ThrowIfFailedAsync();
 #if NETSTANDARD
                 var json = await response.Content.ReadAsStringAsync();
                 var webhookDefinition = JsonConvert.DeserializeObject<WebhookDefinition>(json);
@@ -144,7 +147,7 @@ namespace Dimo.Client.Services.Events
                 client.DefaultRequestHeaders.Authorization =
                     new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
                 var response = await client.DeleteAsync(string.Format(BasePath + "/{0}", webhookId), cancellationToken);
-                response.EnsureSuccessStatusCode();
+                await response.ThrowIfFailedAsync();
             }
         }
 
@@ -157,8 +160,8 @@ namespace Dimo.Client.Services.Events
                     new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
                 var response = await client.GetAsync(string.Format(BasePath + "/{0}", webhookId),
                     cancellationToken);
-
-                response.EnsureSuccessStatusCode();
+                await response.ThrowIfFailedAsync();
+                
 #if NETSTANDARD
                 var json = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<IReadOnlyCollection<int>>(json);
@@ -179,8 +182,9 @@ namespace Dimo.Client.Services.Events
                     new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
                 var response = await client.GetAsync(string.Format(VehiclesPath + "/{0}", tokenId),
                     cancellationToken);
-
-                response.EnsureSuccessStatusCode();
+                
+                await response.ThrowIfFailedAsync();
+                
 #if NETSTANDARD
                 var json = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<IReadOnlyCollection<VehicleSubscriptionDefinition>>(json);
@@ -200,7 +204,8 @@ namespace Dimo.Client.Services.Events
                     new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
                 var response = await client.PostAsync(string.Format(SubscribePath + "/{1}", webhookId, tokenId), null,
                     cancellationToken);
-                response.EnsureSuccessStatusCode();
+
+                await response.ThrowIfFailedAsync();
             }
         }
 
@@ -213,7 +218,8 @@ namespace Dimo.Client.Services.Events
                     new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
                 var response = await client.PostAsync(string.Format(SubscribePath + "/all", webhookId), null,
                     cancellationToken);
-                response.EnsureSuccessStatusCode();
+
+                await response.ThrowIfFailedAsync();
             }
         }
 
@@ -226,7 +232,8 @@ namespace Dimo.Client.Services.Events
                     new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
                 var response = await client.DeleteAsync(string.Format(UnsubscribePath + "/{1}", webhookId, tokenId),
                     cancellationToken);
-                response.EnsureSuccessStatusCode();
+                
+                await response.ThrowIfFailedAsync();
             }
         }
 
@@ -239,7 +246,8 @@ namespace Dimo.Client.Services.Events
                     new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
                 var response = await client.DeleteAsync(string.Format(UnsubscribePath + "/all", webhookId),
                     cancellationToken);
-                response.EnsureSuccessStatusCode();
+                
+                await response.ThrowIfFailedAsync();
             }
         }
     }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Dimo.Client.Models;
@@ -15,6 +16,7 @@ namespace Dimo.Client.Services.Events
         /// </summary>
         /// <param name="authToken">The developer token for API authentication.</param>
         /// <param name="cancellationToken">A token to cancel the operation.</param>
+        /// <exception cref="HttpRequestException">Thrown when the request fails.</exception>
         /// <returns>A collection of webhook configurations.</returns>
         Task<IReadOnlyCollection<WebhookDefinition>> ListWebhooksAsync(string authToken, CancellationToken cancellationToken = default);
 
@@ -24,6 +26,7 @@ namespace Dimo.Client.Services.Events
         /// <param name="authToken">The developer token for API authentication.</param>
         /// <param name="definitionWebhookDefinitionRequest">The webhook configuration to create.</param>
         /// <param name="cancellationToken">A token to cancel the operation.</param>
+        /// <exception cref="HttpRequestException">Thrown when the request fails.</exception>
         /// <returns>The created webhook definition.</returns>
         Task<WebhookDefinition> CreateWebhookAsync(string authToken, WebhookDefinitionRequest definitionWebhookDefinitionRequest, CancellationToken cancellationToken = default);
 
@@ -32,6 +35,7 @@ namespace Dimo.Client.Services.Events
         /// </summary>
         /// <param name="authToken">The developer token for API authentication.</param>
         /// <param name="cancellationToken">A token to cancel the operation.</param>
+        /// <exception cref="HttpRequestException">Thrown when the request fails.</exception>
         /// <returns>A collection of signal names and their units.</returns>
         Task<IReadOnlyCollection<WebhookSignal>> GetWebhookSignalNamesAsync(string authToken, CancellationToken cancellationToken = default);
 
@@ -42,6 +46,7 @@ namespace Dimo.Client.Services.Events
         /// <param name="webhookId">The ID of the webhook to update.</param>
         /// <param name="definitionWebhookDefinitionRequest">The updated webhook configuration.</param>
         /// <param name="cancellationToken">A token to cancel the operation.</param>
+        /// <exception cref="HttpRequestException">Thrown when the request fails.</exception>
         /// <returns>The updated webhook configuration.</returns>
         Task<WebhookDefinition> UpdateWebhookAsync(string authToken, string webhookId, WebhookDefinitionRequest definitionWebhookDefinitionRequest, CancellationToken cancellationToken = default);
 
@@ -51,6 +56,7 @@ namespace Dimo.Client.Services.Events
         /// <param name="authToken">The developer token for API authentication.</param>
         /// <param name="webhookId">The ID of the webhook to delete.</param>
         /// <param name="cancellationToken">A token to cancel the operation.</param>
+        /// <exception cref="HttpRequestException">Thrown when the request fails.</exception>
         Task DeleteWebhookAsync(string authToken, string webhookId, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -59,6 +65,7 @@ namespace Dimo.Client.Services.Events
         /// <param name="authToken">The developer token for API authentication.</param>
         /// <param name="webhookId">The ID of the webhook.</param>
         /// <param name="cancellationToken">A token to cancel the operation.</param>
+        /// <exception cref="HttpRequestException">Thrown when the request fails.</exception>
         /// <returns>A collection of vehicle token IDs.</returns>
         Task<IReadOnlyCollection<int>> ListSubscribedVehiclesAsync(string authToken, string webhookId, CancellationToken cancellationToken = default);
 
@@ -68,6 +75,7 @@ namespace Dimo.Client.Services.Events
         /// <param name="authToken">The developer token for API authentication.</param>
         /// <param name="tokenId">The vehicle token ID.</param>
         /// <param name="cancellationToken">A token to cancel the operation.</param>
+        /// <exception cref="HttpRequestException">Thrown when the request fails.</exception>
         /// <returns>A collection of webhook IDs.</returns>
         Task<IReadOnlyCollection<VehicleSubscriptionDefinition>> ListVehicleSubscriptionsAsync(string authToken, int tokenId, CancellationToken cancellationToken = default);
 
@@ -78,6 +86,7 @@ namespace Dimo.Client.Services.Events
         /// <param name="webhookId">The ID of the webhook to subscribe to.</param>
         /// <param name="tokenId">The vehicle token ID to subscribe.</param>
         /// <param name="cancellationToken">A token to cancel the operation.</param>
+        /// <exception cref="HttpRequestException">Thrown when the request fails.</exception>
         Task SubscribeVehicleAsync(string authToken, string webhookId, int tokenId, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -86,6 +95,7 @@ namespace Dimo.Client.Services.Events
         /// <param name="authToken">The developer token for API authentication.</param>
         /// <param name="webhookId">The ID of the webhook to subscribe to.</param>
         /// <param name="cancellationToken">A token to cancel the operation.</param>
+        /// <exception cref="HttpRequestException">Thrown when the request fails.</exception>
         Task SubscribeAllVehiclesAsync(string authToken, string webhookId, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -95,6 +105,7 @@ namespace Dimo.Client.Services.Events
         /// <param name="webhookId">The ID of the webhook to unsubscribe from.</param>
         /// <param name="tokenId">The vehicle token ID to unsubscribe.</param>
         /// <param name="cancellationToken">A token to cancel the operation.</param>
+        /// <exception cref="HttpRequestException">Thrown when the request fails.</exception>
         Task UnsubscribeVehicleAsync(string authToken, string webhookId, int tokenId, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -103,6 +114,7 @@ namespace Dimo.Client.Services.Events
         /// <param name="authToken">The developer token for API authentication.</param>
         /// <param name="webhookId">The ID of the webhook to unsubscribe from.</param>
         /// <param name="cancellationToken">A token to cancel the operation.</param>
+        /// <exception cref="HttpRequestException">Thrown when the request fails.</exception>
         Task UnsubscribeAllVehiclesAsync(string authToken, string webhookId, CancellationToken cancellationToken = default);
     }
 } 
