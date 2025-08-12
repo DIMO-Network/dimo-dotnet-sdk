@@ -6,13 +6,12 @@ using Dimo.Client.Models;
 
 var dimoClient = new DimoClientBuilder()
     .WithEnvironment(DimoEnvironment.Production)
-    // .WithCredentials(new ClientCredentials
-    // {
-    //     Address = "<your address>",
-    //     ClientId = "<your client id>",
-    //     Domain = "<your domain>",
-    //     PrivateKey = "<your private key>"
-    // })
+    .WithCredentials(new ClientCredentials
+    {
+        ClientId = "<your client id>",
+        Domain = "<your domain>",
+        PrivateKey = "<your private key>"
+    })
     .AddRestServices()
     .AddGraphQLServices()
     .Build();

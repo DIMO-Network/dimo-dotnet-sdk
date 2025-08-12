@@ -102,12 +102,12 @@ namespace Dimo.Client.Services.TokenExchange
         
         private IList<PrivilegeSharing> DecodePermissionBits(string permissionHex)
         {
-            if (string.IsNullOrWhiteSpace(permissionHex)) throw new ArgumentNullException(nameof(permissionHex), "Permission hex must not be null or empty");
+            if (string.IsNullOrWhiteSpace(permissionHex)) throw new ArgumentException("Permission hex must not be null or empty");
             var cleanHex = permissionHex.ToLower().Replace("0x", "");
             var permissionBits = Convert.ToUInt64(cleanHex, fromBase: 16);
             var permissions = new List<PrivilegeSharing>();
-
-            for (var i = 0; i < 128; i++)
+            const int maxPermissionBits = 128;
+            for (var i = 0; i < maxPermissionBits; i++)
             {
                 var bitPair = (int)((permissionBits >> i) & 0b11);
                 if (bitPair == 0b11) 

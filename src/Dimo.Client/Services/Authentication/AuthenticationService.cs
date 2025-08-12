@@ -33,6 +33,7 @@ namespace Dimo.Client.Services.Authentication
         {
             using (var client = _httpClientFactory.CreateClient(ApiNames.Auth))
             {
+                // Client Id and Address are the same in this case, as per Dimo's API documentation.
                 var content = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("scope", "openid email"),
