@@ -175,8 +175,7 @@ foreach (var node in response.Vehicles.Nodes)
 var auth = await dimoClient.AuthenticationService.GetTokenAsync(
     clientId: "<clientId>",
     domain: "https://<domain>",
-    privateKey: "<privateKey>",
-    address: "<clientId>"
+    privateKey: "<privateKey>"
 );
 
 // List all webhooks

@@ -5,12 +5,12 @@ using Dimo.Client.Services.Attestation;
 using Dimo.Client.Services.Authentication;
 using Dimo.Client.Services.DeviceDefinitions;
 using Dimo.Client.Services.Devices;
+using Dimo.Client.Services.Events;
 using Dimo.Client.Services.Identity;
 using Dimo.Client.Services.Telemetry;
 using Dimo.Client.Services.TokenExchange;
 using Dimo.Client.Services.Trips;
 using Dimo.Client.Services.Valuations;
-using Dimo.Client.Services.Webhooks;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Dimo.Client
@@ -21,14 +21,12 @@ namespace Dimo.Client
         IAuthenticationService AuthenticationService { get; }
         IDeviceDefinitionsService DeviceDefinitionsService { get; }
         IDevicesService DevicesService { get; }
-        IEventsService EventsService { get; }
         IVehicleEventsService VehicleEventsService { get; }
         ITokenExchangeService TokenExchangeService { get; }
         ITripsService TripsService { get; }
         IValuationsService ValuationsService { get; }
         IIdentityService IdentityService { get; }
         ITelemetryService TelemetryService { get; }
-        IWebhooksService webhooksService { get; }
     }
 
     internal class DimoClient : IDimoClient
@@ -37,14 +35,12 @@ namespace Dimo.Client
         public IAuthenticationService AuthenticationService => _provider.GetRequiredService<IAuthenticationService>();
         public IDeviceDefinitionsService DeviceDefinitionsService => _provider.GetRequiredService<IDeviceDefinitionsService>();
         public IDevicesService DevicesService => _provider.GetRequiredService<IDevicesService>();
-        public IEventsService EventsService => _provider.GetRequiredService<IEventsService>();
         public IVehicleEventsService VehicleEventsService => _provider.GetRequiredService<IVehicleEventsService>();
         public ITokenExchangeService TokenExchangeService => _provider.GetRequiredService<ITokenExchangeService>();
         public ITripsService TripsService => _provider.GetRequiredService<ITripsService>();
         public IValuationsService ValuationsService => _provider.GetRequiredService<IValuationsService>();
         public IIdentityService IdentityService => _provider.GetRequiredService<IIdentityService>();
         public ITelemetryService TelemetryService => _provider.GetRequiredService<ITelemetryService>();
-        public IWebhooksService webhooksService => _provider.GetRequiredService<IWebhooksService>();
         
         private readonly ServiceProvider _provider;
 

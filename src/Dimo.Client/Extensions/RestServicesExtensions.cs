@@ -3,6 +3,7 @@ using Dimo.Client.Services.Attestation;
 using Dimo.Client.Services.Authentication;
 using Dimo.Client.Services.DeviceDefinitions;
 using Dimo.Client.Services.Devices;
+using Dimo.Client.Services.Events;
 using Dimo.Client.Services.TokenExchange;
 using Dimo.Client.Services.Trips;
 using Dimo.Client.Services.Valuations;
@@ -17,7 +18,6 @@ namespace Dimo.Client.Extensions
             services.AddScoped<IAttestationService, AttestationService>();
             services.AddScoped<IDeviceDefinitionsService, DeviceDefinitionService>();
             services.AddScoped<IDevicesService, DevicesService>();
-            services.AddScoped<IEventsService, EventsService>();
             services.AddScoped<IVehicleEventsService, VehicleEventsService>();
             services.AddScoped<ITripsService, TripsService>();
             services.AddScoped<IValuationsService, ValuationsService>();
