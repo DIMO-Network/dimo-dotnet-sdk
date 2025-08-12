@@ -14,7 +14,7 @@ namespace Dimo.Client
         public const string Devices = "https://devices-api.dimo.zone";
         public const string DeviceData = "https://device-data-api.dimo.zone";
         public const string DeviceDefinitions = "https://device-definitions-api.dimo.zone";
-        public const string Events = "https://events-api.dimo.zone";
+        public const string Events = "https://vehicle-events-api.dimo.zone";
         public const string TokenExchange = "https://token-exchange-api.dimo.zone";
         public const string Trips = "https://trips-api.dimo.zone";
         public const string User = "https://users-api.dimo.zone";
@@ -32,7 +32,7 @@ namespace Dimo.Client
         public const string Devices = "https://devices-api.dev.dimo.zone";
         public const string DeviceData = "https://device-data-api.dev.dimo.zone";
         public const string DeviceDefinitions = "https://device-definitions-api.dev.dimo.zone";
-        public const string Events = "https://events-api.dev.dimo.zone";
+        public const string Events = "https://vehicle-events-api.dev.dimo.zone";
         public const string TokenExchange = "https://token-exchange-api.dev.dimo.zone";
         public const string Trips = "https://trips-api.dev.dimo.zone";
         public const string User = "https://users-api.dev.dimo.zone";

@@ -21,6 +21,8 @@ namespace Dimo.Client
         IAuthenticationService AuthenticationService { get; }
         IDeviceDefinitionsService DeviceDefinitionsService { get; }
         IDevicesService DevicesService { get; }
+        IEventsService EventsService { get; }
+        IVehicleEventsService VehicleEventsService { get; }
         ITokenExchangeService TokenExchangeService { get; }
         ITripsService TripsService { get; }
         IValuationsService ValuationsService { get; }
@@ -35,6 +37,8 @@ namespace Dimo.Client
         public IAuthenticationService AuthenticationService => _provider.GetRequiredService<IAuthenticationService>();
         public IDeviceDefinitionsService DeviceDefinitionsService => _provider.GetRequiredService<IDeviceDefinitionsService>();
         public IDevicesService DevicesService => _provider.GetRequiredService<IDevicesService>();
+        public IEventsService EventsService => _provider.GetRequiredService<IEventsService>();
+        public IVehicleEventsService VehicleEventsService => _provider.GetRequiredService<IVehicleEventsService>();
         public ITokenExchangeService TokenExchangeService => _provider.GetRequiredService<ITokenExchangeService>();
         public ITripsService TripsService => _provider.GetRequiredService<ITripsService>();
         public IValuationsService ValuationsService => _provider.GetRequiredService<IValuationsService>();

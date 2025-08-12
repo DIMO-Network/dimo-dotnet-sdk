@@ -17,6 +17,8 @@ namespace Dimo.Client.Extensions
             services.AddScoped<IAttestationService, AttestationService>();
             services.AddScoped<IDeviceDefinitionsService, DeviceDefinitionService>();
             services.AddScoped<IDevicesService, DevicesService>();
+            services.AddScoped<IEventsService, EventsService>();
+            services.AddScoped<IVehicleEventsService, VehicleEventsService>();
             services.AddScoped<ITripsService, TripsService>();
             services.AddScoped<IValuationsService, ValuationsService>();
             return services;

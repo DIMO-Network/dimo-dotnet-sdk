@@ -1,4 +1,7 @@
-﻿using Dimo.Client;
+// See https://aka.ms/new-console-template for more information
+
+using System.Text.Json;
+using Dimo.Client;
 using Dimo.Client.Models;
 
 var dimoClient = new DimoClientBuilder()
@@ -16,7 +19,6 @@ var dimoClient = new DimoClientBuilder()
 
 // or you can add all services at once
 //var dimoClient = new DimoClientBuilder().AddAllServices().Build();
-
 
 /*
 var challenge = await dimoClient.AuthenticationService.GenerateChallengeAsync(
@@ -165,4 +167,103 @@ foreach (var node in response.Vehicles.Nodes)
 // var vinVcLatest = await dimoClient.TelemetryService.GetVehicleVinVcLatestAsync(tokenId, vehicleToken);
 //
 // Console.WriteLine(vinVcLatest);
+#endregion
+
+#region Vehicle Events Service
+/*
+// First, get the developer token
+var auth = await dimoClient.AuthenticationService.GetTokenAsync(
+    clientId: "<clientId>",
+    domain: "https://<domain>",
+    privateKey: "<privateKey>",
+    address: "<clientId>"
+);
+
+// List all webhooks
+var webhooks = await dimoClient.VehicleEventsService.ListWebhooksAsync(auth.AccessToken);
+foreach (var webhook in webhooks)
+{
+    Console.WriteLine(JsonSerializer.Serialize(webhook));
+}
+
+// Get available signal names
+var signalNames = await dimoClient.VehicleEventsService.GetWebhookSignalNamesAsync(auth.AccessToken);
+Console.WriteLine("\nAvailable signal names:");
+// foreach (var signal in signalNames)
+// {
+//     Console.WriteLine(JsonSerializer.Serialize(signal));
+// }
+
+// Create a new webhook
+var createWebhook = new WebhookDefinitionRequest
+{
+    Service = WebhookService.Telemetry,
+    Data = "powertrainTransmissionTravelledDistance",
+    Trigger = "valueNumber > 1000",
+    Setup = WebhookSetup.Realtime,
+    Description = "Trigger when travelled distance exceeds 1000",
+    TargetUri = "https://constantly-sweet-cardinal.ngrok-free.app",
+    Status = WebhookStatus.Active,
+    VerificationToken = "token"
+};
+
+var createdWebhook = await dimoClient.VehicleEventsService.CreateWebhookAsync(auth.AccessToken, createWebhook);
+Console.WriteLine(JsonSerializer.Serialize(createdWebhook));
+
+// Subscribe a vehicle to the webhook
+var tokenId = 178893; // Replace with actual vehicle token ID
+await dimoClient.VehicleEventsService.SubscribeVehicleAsync(auth.AccessToken, createdWebhook.Id, tokenId);
+Console.WriteLine($"Subscribed vehicle {tokenId} to webhook {createdWebhook.Service}");
+
+// List subscribed vehicles
+var subscribedVehicles = await dimoClient.VehicleEventsService.ListSubscribedVehiclesAsync(auth.AccessToken, createdWebhook.Id);
+Console.WriteLine("\nSubscribed vehicles:");
+foreach (var vehicleId in subscribedVehicles)
+{
+    Console.WriteLine($"- Vehicle ID: {vehicleId}");
+}
+
+// List vehicle subscriptions
+var vehicleSubscriptions = await dimoClient.VehicleEventsService.ListVehicleSubscriptionsAsync(auth.AccessToken, tokenId);
+Console.WriteLine($"\nSubscriptions for vehicle {tokenId}:");
+foreach (var subscription in vehicleSubscriptions)
+{
+    Console.WriteLine(JsonSerializer.Serialize(subscription));
+}
+
+// Update webhook configuration
+var updatedWebhook = new WebhookDefinitionRequest
+{
+    Service = WebhookService.Telemetry,
+    Data = "powertrainTransmissionTravelledDistance",
+    Trigger = "valueNumber > 10000",
+    Setup = WebhookSetup.Realtime,
+    Description = "Trigger when travelled distance exceeds 10000",
+    TargetUri = "https://constantly-sweet-cardinal.ngrok-free.app",
+    Status = WebhookStatus.Active,
+    VerificationToken = "token"
+};
+
+var updated = await dimoClient.VehicleEventsService.UpdateWebhookAsync(auth.AccessToken, createdWebhook.Id, updatedWebhook);
+Console.WriteLine($"\nUpdated webhook description: {updated.Description}");
+
+// Unsubscribe vehicle
+await dimoClient.VehicleEventsService.UnsubscribeVehicleAsync(auth.AccessToken, createdWebhook.Id, tokenId);
+Console.WriteLine($"\nUnsubscribed vehicle {tokenId} from webhook {createdWebhook.Service}");
+
+// Delete webhook
+await dimoClient.VehicleEventsService.DeleteWebhookAsync(auth.AccessToken, createdWebhook.Id);
+Console.WriteLine($"\nDeleted webhook {createdWebhook.Service}");
+
+// Example of subscribing all vehicles
+
+var allVehiclesHook = await dimoClient.VehicleEventsService.CreateWebhookAsync(auth.AccessToken, createWebhook);
+await dimoClient.VehicleEventsService.SubscribeAllVehiclesAsync(auth.AccessToken, allVehiclesHook.Id);
+Console.WriteLine($"\nSubscribed all vehicles to webhook {allVehiclesHook.Service}");
+
+// Clean up - unsubscribe all vehicles and delete webhook
+await dimoClient.VehicleEventsService.UnsubscribeAllVehiclesAsync(auth.AccessToken, allVehiclesHook.Id);
+await dimoClient.VehicleEventsService.DeleteWebhookAsync(auth.AccessToken, allVehiclesHook.Id);
+Console.WriteLine($"\nCleaned up webhook {allVehiclesHook.Id}");
+*/
 #endregion
