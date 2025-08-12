@@ -10,6 +10,7 @@ using Dimo.Client.Services.Telemetry;
 using Dimo.Client.Services.TokenExchange;
 using Dimo.Client.Services.Trips;
 using Dimo.Client.Services.Valuations;
+using Dimo.Client.Services.Webhooks;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Dimo.Client
@@ -25,6 +26,7 @@ namespace Dimo.Client
         IValuationsService ValuationsService { get; }
         IIdentityService IdentityService { get; }
         ITelemetryService TelemetryService { get; }
+        IWebhooksService webhooksService { get; }
     }
 
     internal class DimoClient : IDimoClient
@@ -38,6 +40,7 @@ namespace Dimo.Client
         public IValuationsService ValuationsService => _provider.GetRequiredService<IValuationsService>();
         public IIdentityService IdentityService => _provider.GetRequiredService<IIdentityService>();
         public ITelemetryService TelemetryService => _provider.GetRequiredService<ITelemetryService>();
+        public IWebhooksService webhooksService => _provider.GetRequiredService<IWebhooksService>();
         
         private readonly ServiceProvider _provider;
 
