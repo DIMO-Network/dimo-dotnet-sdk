@@ -86,10 +86,9 @@ The rest services provide the following functionality:
 - Authentication
 - Device Data
 - Device Definitions
-- Events
+- Vehicle Events
 - Token Exchange
 - Trips
-- Users
 - Valuations
 - Vehicle Signal Decoding
 
@@ -98,9 +97,6 @@ The rest services provide the following functionality:
 The GraphQL services provide the following functionality:
 - Identity API
 - Telemetry API
-
-#### Streamr Services
-Coming soon...
 
 ### Examples
 
@@ -132,8 +128,7 @@ var dimoClient = new DimoClientBuilder()
     
  var challenge = await dimoClient.AuthenticationService.GenerateChallengeAsync(
     clientId: "<your client id>",
-    domain: "<your domain>",
-    address: "<your address>",
+    domain: "<your domain>"
     );
 
 var signedChallenge = await dimoClient.AuthenticationService.SignChallengeAsync(
@@ -162,8 +157,7 @@ var dimoClient = new DimoClientBuilder()
  var auth = await dimoClient.AuthenticationService.GetTokenAsync(
     clientId: "<your client id>",
     domain: "<your domain>",
-    privateKey: "<your private key>",
-    address: "<your address>"
+    privateKey: "<your private key>"
     );
     
 Console.WriteLine(auth.AccessToken);
@@ -179,7 +173,6 @@ var dimoClient = new DimoClientBuilder()
     .WithEnvironment(DimoEnvironment.Production)
     .WithCredentials(new ClientCredentials
     {
-        Address = "<your address>",
         ClientId = "<your client id>",
         Domain = "<your domain>",
         PrivateKey = "<your private key>"
@@ -212,8 +205,7 @@ var tokenId = 123456; // The token id of the device you want to get the data for
 var auth = await dimoClient.AuthenticationService.GetTokenAsync(
     clientId: "<your client id>",
     domain: "<your domain>",
-    privateKey: "<your private key>",
-    address: "<your address>"
+    privateKey: "<your private key>"    
     );
 
 var privilegeToken = await dimoClient.TokenExchangeService.GetPrivilegeTokenAsync(
