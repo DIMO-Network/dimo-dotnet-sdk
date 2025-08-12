@@ -1,15 +1,12 @@
 using System;
 using Dimo.Client.Services.Attestation;
 using Dimo.Client.Services.Authentication;
-using Dimo.Client.Services.DeviceData;
 using Dimo.Client.Services.DeviceDefinitions;
 using Dimo.Client.Services.Devices;
 using Dimo.Client.Services.Events;
 using Dimo.Client.Services.TokenExchange;
 using Dimo.Client.Services.Trips;
-using Dimo.Client.Services.Users;
 using Dimo.Client.Services.Valuations;
-using Dimo.Client.Services.VehicleSignalDecoding;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Dimo.Client.Extensions
@@ -19,15 +16,11 @@ namespace Dimo.Client.Extensions
         internal static IServiceCollection AddDimoRestServices(this IServiceCollection services)
         {
             services.AddScoped<IAttestationService, AttestationService>();
-            services.AddScoped<IDeviceDataService, DeviceDataService>();
             services.AddScoped<IDeviceDefinitionsService, DeviceDefinitionService>();
             services.AddScoped<IDevicesService, DevicesService>();
-            services.AddScoped<IEventsService, EventsService>();
             services.AddScoped<IVehicleEventsService, VehicleEventsService>();
             services.AddScoped<ITripsService, TripsService>();
-            services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IValuationsService, ValuationsService>();
-            services.AddScoped<IVehicleSignalDecodingService, VehicleSignalDecodingService>();
             return services;
         }
         

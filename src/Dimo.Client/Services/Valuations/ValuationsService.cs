@@ -43,7 +43,6 @@ namespace Dimo.Client.Services.Valuations
             {
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
                 var response = await client.PostAsync($"/v1/vehicles/{tokenId}/instant-offer", null, cancellationToken);
-
                 response.EnsureSuccessStatusCode();
             }
         }

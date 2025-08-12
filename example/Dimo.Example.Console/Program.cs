@@ -1,4 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
+// See https://aka.ms/new-console-template for more information
 
 using System.Text.Json;
 using Dimo.Client;
@@ -6,13 +6,12 @@ using Dimo.Client.Models;
 
 var dimoClient = new DimoClientBuilder()
     .WithEnvironment(DimoEnvironment.Production)
-    // .WithCredentials(new ClientCredentials
-    // {
-    //     Address = "<your address>",
-    //     ClientId = "<your client id>",
-    //     Domain = "<your domain>",
-    //     PrivateKey = "<your private key>"
-    // })
+    .WithCredentials(new ClientCredentials
+    {
+        ClientId = "<your client id>",
+        Domain = "<your domain>",
+        PrivateKey = "<your private key>"
+    })
     .AddRestServices()
     .AddGraphQLServices()
     .Build();
@@ -175,8 +174,7 @@ foreach (var node in response.Vehicles.Nodes)
 var auth = await dimoClient.AuthenticationService.GetTokenAsync(
     clientId: "<clientId>",
     domain: "https://<domain>",
-    privateKey: "<privateKey>",
-    address: "<clientId>"
+    privateKey: "<privateKey>"
 );
 
 // List all webhooks

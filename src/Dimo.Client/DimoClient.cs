@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Dimo.Client.Extensions;
 using Dimo.Client.Services.Attestation;
 using Dimo.Client.Services.Authentication;
-using Dimo.Client.Services.DeviceData;
 using Dimo.Client.Services.DeviceDefinitions;
 using Dimo.Client.Services.Devices;
 using Dimo.Client.Services.Events;
@@ -11,9 +10,7 @@ using Dimo.Client.Services.Identity;
 using Dimo.Client.Services.Telemetry;
 using Dimo.Client.Services.TokenExchange;
 using Dimo.Client.Services.Trips;
-using Dimo.Client.Services.Users;
 using Dimo.Client.Services.Valuations;
-using Dimo.Client.Services.VehicleSignalDecoding;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Dimo.Client
@@ -22,16 +19,12 @@ namespace Dimo.Client
     {
         IAttestationService AttestationService { get; }
         IAuthenticationService AuthenticationService { get; }
-        IDeviceDataService DeviceDataService { get; }
         IDeviceDefinitionsService DeviceDefinitionsService { get; }
         IDevicesService DevicesService { get; }
-        IEventsService EventsService { get; }
         IVehicleEventsService VehicleEventsService { get; }
         ITokenExchangeService TokenExchangeService { get; }
         ITripsService TripsService { get; }
-        IUsersService UsersService { get; }
         IValuationsService ValuationsService { get; }
-        IVehicleSignalDecodingService VehicleSignalDecodingService { get; }
         IIdentityService IdentityService { get; }
         ITelemetryService TelemetryService { get; }
     }
@@ -40,18 +33,14 @@ namespace Dimo.Client
     {
         public IAttestationService AttestationService => _provider.GetRequiredService<IAttestationService>();
         public IAuthenticationService AuthenticationService => _provider.GetRequiredService<IAuthenticationService>();
-        public IDeviceDataService DeviceDataService => _provider.GetRequiredService<IDeviceDataService>();
         public IDeviceDefinitionsService DeviceDefinitionsService => _provider.GetRequiredService<IDeviceDefinitionsService>();
         public IDevicesService DevicesService => _provider.GetRequiredService<IDevicesService>();
-        public IEventsService EventsService => _provider.GetRequiredService<IEventsService>();
         public IVehicleEventsService VehicleEventsService => _provider.GetRequiredService<IVehicleEventsService>();
         public ITokenExchangeService TokenExchangeService => _provider.GetRequiredService<ITokenExchangeService>();
         public ITripsService TripsService => _provider.GetRequiredService<ITripsService>();
-        public IUsersService UsersService => _provider.GetRequiredService<IUsersService>();
         public IValuationsService ValuationsService => _provider.GetRequiredService<IValuationsService>();
         public IIdentityService IdentityService => _provider.GetRequiredService<IIdentityService>();
         public ITelemetryService TelemetryService => _provider.GetRequiredService<ITelemetryService>();
-        public IVehicleSignalDecodingService VehicleSignalDecodingService => _provider.GetRequiredService<IVehicleSignalDecodingService>();
         
         private readonly ServiceProvider _provider;
 
@@ -59,8 +48,7 @@ namespace Dimo.Client
             DimoEnvironment environment,
             ClientCredentials credentials,
             bool restServices, 
-            bool graphql, 
-            bool streamr)
+            bool graphql)
         {
             var collection = new ServiceCollection();
             
@@ -92,7 +80,6 @@ namespace Dimo.Client
                     options.ClientId = credentials.ClientId;
                     options.PrivateKey = credentials.PrivateKey;
                     options.Domain = credentials.Domain;
-                    options.Address = credentials.Address;
                 });
             }
             

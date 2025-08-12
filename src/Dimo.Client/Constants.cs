@@ -56,6 +56,7 @@ namespace Dimo.Client
         public const string VehicleSignalDecoding = "VehicleSignalDecodingApi";
         public const string Identity = "IdentityApi";
         public const string Telemetry = "TelemetryApi";
+        
     }
     
     internal static class Constants
@@ -118,7 +119,7 @@ namespace Dimo.Client
                         {
                             ApiNames.Attestation,
                             DevApiUrls.Attestation
-                        }
+                        },
                     }
 
                 },
